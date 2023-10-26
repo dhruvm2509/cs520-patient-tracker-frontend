@@ -1,0 +1,39 @@
+.Login {
+	text-align: center;
+	font-size: 50px;
+}
+
+.logo {
+	width: 200px;
+	height: 200px;
+	padding: 30px;
+}
+
+.header {
+	padding: 50px;
+	background-color: #5142ffff;
+}
+
+.login-button {
+	padding: 10px;
+}
+
+.forgot-password {
+	font-size: 18px;
+	color: black;
+}
+
+.sign-up {
+	font-size: 18px;
+	color: black;
+}
+
+.username {
+	font-size: 20px;
+	padding: 10px;
+}
+
+.password {
+	font-size: 20px;
+	padding: 10px;
+}
