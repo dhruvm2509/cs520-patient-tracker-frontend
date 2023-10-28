@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Login.css';
 import PillButton from './ui_components/PillButton';
 import ShortTextField from './ui_components/ShortTextField';
@@ -38,11 +39,11 @@ function Login() {
 					</div>
 
 					<div className="forgot-password">
-						<a href='/forgot-password'><u>Forgot Password?</u></a>
+						<Link to='/'><u>Forgot Password?</u></Link>
 					</div>
 
 					<div className="login-button">
-						<a href="/login">
+						<Link to="/doctor-home">
 							<PillButton
 								text="Log In"
 								fontSize="22"
@@ -51,12 +52,12 @@ function Login() {
 								href="/test1"
 								onClick={handleClick}
 							/>
-						</a>
+						</Link>
 
 					</div>
 
 					<div className="sign-up">
-						<a href='/signup'><u>Sign Up</u></a>
+						<Link to='/'><u>Sign Up</u></Link>
 					</div>
 				</div>
 				<div className="shade"></div>
