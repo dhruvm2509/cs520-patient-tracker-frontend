@@ -7,11 +7,15 @@ import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom';
-import DoctorHome from './DoctorHome';
+import DoctorHome from './view/DoctorHome';
 
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <App />
+  },
+  {
+    path: '/login',
     element: <App />
   },
   {

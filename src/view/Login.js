@@ -1,66 +1,58 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css';
-import PillButton from './ui_components/PillButton';
-import ShortTextField from './ui_components/ShortTextField';
-import logo from './resources/PatientTrackerLogo.png';
+import './../PatientTracker.css';
+import PillButton from '../ui_components/PillButton';
+import ShortTextField from '../ui_components/ShortTextField';
+import logo from './../resources/PatientTrackerLogo.png';
 
 function Login() {
 
-	const handleClick = () => {
-		console.log("Clicky");
-	};
-
 	return (
 		<div className="login">
-			<div className="header">
+			<div className="header-text header-background">
 				Patient Tracker Web App
 			</div>
 			<div className="container">
-				<div className="shade"></div>
+				<div className="gray-shade"></div>
 				<div>
 					<div>
 						<img src={logo} alt="Patient Tracker logo" class="logo" />
 					</div>
-					<div className="username">
+					<div className="short-text-field">
 						<ShortTextField
-							className="username"
 							placeholder="Username"
 							outerText="Username:"
 						/>
 					</div>
-					<div className="password">
+					<div className="short-text-field">
 						<ShortTextField
-							className="password"
 							placeholder="Password"
 							outerText="Password:"
 							isPassword="true"
 						/>
 					</div>
 
-					<div className="forgot-password">
+					<div className="text-link">
 						<Link to='/'><u>Forgot Password?</u></Link>
 					</div>
 
 					<div className="login-button">
-						<Link to="/doctor-home">
-							<PillButton
-								text="Log In"
-								fontSize="22"
-								pixelHeight="50"
-								pixelWidth="200"
-								href="/test1"
-								onClick={handleClick}
-							/>
-						</Link>
+						<PillButton
+							className="medium-text"
+							text="Log In"
+							pixelHeight="50"
+							pixelWidth="200"
+							link="/doctor-home"
+						/>
 
 					</div>
 
-					<div className="sign-up">
+					<div className="text-link">
 						<Link to='/'><u>Sign Up</u></Link>
 					</div>
 				</div>
-				<div className="shade"></div>
+				<div className="gray-shade"></div>
 			</div>
 
 		</div>

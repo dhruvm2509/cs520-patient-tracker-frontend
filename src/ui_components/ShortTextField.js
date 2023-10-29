@@ -1,4 +1,5 @@
 import React from 'react';
+import './../PatientTracker.css';
 
 function ShortTextField(props) {
 
@@ -8,7 +9,7 @@ function ShortTextField(props) {
 			placeholder={props.placeholder}
 			value={props.value}
 			onChange={props.onChange}
-			className={props.className}
+			className={`short-text-field ${props.className}`}
 		/>
 
 	);

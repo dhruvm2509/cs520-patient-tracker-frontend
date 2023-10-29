@@ -1,0 +1,56 @@
+.header-background {
+	padding: 20px;
+	background-color: #5142ffff;
+}
+
+.header-text {
+	font-size: 50px;
+	text-align: center;
+}
+
+.text-link {
+	font-size: 18px;
+	color: black;
+}
+
+.gray-shade {
+	background-color: #f1f1f1;
+}
+
+.small-text {
+	font-size: 18px;
+}
+
+.medium-text {
+	font-size: 22px;
+}
+
+.large-text {
+	font-size: 40px;
+}
+
+.circle-border {
+	border-radius: 50%;
+}
+
+.row-container {
+	display: flex;
+	align-items: center;
+}
+
+.profile-image-size {
+	width: 50px;
+	height: 50px;
+}
+
+.small-padding {
+	padding: 10px;
+}
+
+.small-margin {
+	margin: 10px;
+}
+
+.left-align-items {
+	text-align: left;
+}

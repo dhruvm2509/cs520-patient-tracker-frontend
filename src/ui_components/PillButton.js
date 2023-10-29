@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function PillButton(props) {
 
@@ -13,16 +14,33 @@ function PillButton(props) {
 		cursor: `pointer`
 	};
 
-	return (
-		<button
-			style={pillButtonStyle}
-			onClick={props.onClick}
-			className={`pill-button ${props.className}`}
-		>
-			{props.text}
-		</button>
+	const mergedStyle = { ...pillButtonStyle, ...props.style };
 
-	);
+	if (props.link) {
+		return (
+			<Link style={{ textDecoration: 'none' }} to={props.link}>
+				<button
+					style={mergedStyle}
+					onClick={props.onClick}
+					className={props.className}
+				>
+					{props.text}
+				</button>
+			</Link>
+		);
+	} else {
+		return (
+			<button
+				style={mergedStyle}
+				onClick={props.onClick}
+				className={props.className}
+			>
+				{props.text}
+			</button>
+		);
+	}
+
+
 }
 
 export default PillButton;
