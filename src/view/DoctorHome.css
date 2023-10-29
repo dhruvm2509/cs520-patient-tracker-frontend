@@ -1,0 +1,69 @@
+.signout-size {
+	align-items: center;
+	text-align: center;
+}
+
+.pill-alignment {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+}
+
+.profile-size {
+	width: 50px;
+	height: 50px;
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+.profile-signout {
+	text-align: right;
+	display: flex;
+	align-items: center;
+	justify-content: right;
+}
+
+.doctor-header-container {
+	display: grid;
+	grid-template-columns: 1fr 3fr 1fr;
+}
+
+.equal-spacing {
+	justify-content: space-around;
+}
+
+.small-padding {
+	padding: 10px;
+}
+
+.small-margin {
+	margin: 10px;
+}
+
+.search-field {
+	width: 100%
+}
+
+.right-margin {
+	margin-right: 10px;
+}
+
+.container {
+	display: grid;
+	grid-template-columns: 1fr 3fr 1fr;
+	height: 100%;
+	text-align: center;
+}
+
+.doctor-home {
+	height: 100vh;
+}
+
+.toggle-text {
+	cursor: pointer;
+}
+
+.left-align-text {
+	text-align: left;
+}
