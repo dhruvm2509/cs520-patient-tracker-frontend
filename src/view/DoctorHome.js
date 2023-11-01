@@ -4,6 +4,7 @@ import doctorImage from './../resources/DoctorPlaceholder.jpg';
 import PillButton from '../ui_components/PillButton';
 import ShortTextField from '../ui_components/ShortTextField';
 import AppointmentCard from '../ui_components/AppointmentCard';
+import Calendar from '../ui_components/Calendar';
 
 function DoctorHome() {
 
@@ -70,6 +71,9 @@ function DoctorHome() {
 							text="Select Open Time Slots"
 						/>
 					</div>
+					<div style={{ display: 'flex', justifyContent: 'space-around', margin: '10px' }}>
+						<Calendar />
+					</div>
 					<div onClick={toggleToday} className="toggle-text medium-text left-align-text small-padding">
 						{todayVisible ? <p>Today ▼</p> : <p>Today ►</p>}
 					</div>
@@ -82,6 +86,7 @@ function DoctorHome() {
 						{monthVisible ? <p>This Month ▼</p> : <p>This Month ►</p>}
 					</div>
 					{monthVisible ? <AppointmentCard className="small-margin" /> : null}
+					<div style={{ height: '100px' }}></div>
 				</div>
 				<div className="gray-shade"></div>
 			</div>
