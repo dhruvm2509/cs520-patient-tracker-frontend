@@ -3,23 +3,45 @@ import './DoctorHome.css';
 import doctorImage from './../resources/DoctorPlaceholder.jpg';
 import PillButton from '../ui_components/PillButton';
 import ShortTextField from '../ui_components/ShortTextField';
-import AppointmentCard from '../ui_components/AppointmentCard';
+import DoctorCalendarView from '../ui_components/DoctorCalendarView';
+import DoctorListView from '../ui_components/DoctorListView';
 
 function DoctorHome() {
 
-	const [todayVisible, setTodayVisibility] = useState(true);
-	const [weekVisible, setWeekVisibility] = useState(true);
-	const [monthVisible, setMonthVisibility] = useState(true);
+	const [isListView, setIsListView] = useState(true);
 
-	const toggleToday = () => {
-		setTodayVisibility(!todayVisible);
-	}
-	const toggleWeek = () => {
-		setWeekVisibility(!weekVisible);
-	}
-	const toggleMonth = () => {
-		setMonthVisibility(!monthVisible);
-	}
+	// Day selector
+	const currentDay = new Date().getDate();
+	const [selectedDay, setSelectedDay] = useState(currentDay);
+
+	// Month selector
+	const currentMonth = new Date().getMonth();
+	const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+
+	// Year selector
+	const currentYear = new Date().getFullYear();
+	const [selectedYear, setSelectedYear] = useState(currentYear);
+
+	const months = [
+		'January', 'February', 'March', 'April',
+		'May', 'June', 'July', 'August',
+		'September', 'October', 'November', 'December'
+	];
+
+	const listViewToggle = (event) => {
+		setIsListView(!isListView);
+	};
+
+	// Handle year/month updates
+	const handleMonthChange = (event) => {
+		setSelectedMonth(months.indexOf(event.target.value));
+		setSelectedDay(1);
+	};
+
+	const handleYearChange = (event) => {
+		setSelectedYear(event.target.value);
+		setSelectedDay(1);
+	};
 
 	return (
 
@@ -47,6 +69,9 @@ function DoctorHome() {
 			<div className="container">
 				<div className="gray-shade"></div>
 				<div>
+					<div className="large-text small-margin">
+						Doctor Appointments
+					</div>
 					<div className="row-container small-padding">
 						<PillButton
 							className="pill-alignment medium-text right-margin"
@@ -61,7 +86,8 @@ function DoctorHome() {
 							className="pill-alignment medium-text"
 							pixelWidth="200"
 							pixelHeight="50"
-							text="Calendar View"
+							text={isListView ? "Calendar View" : "List View"}
+							onClick={listViewToggle}
 						/>
 						<PillButton
 							className="pill-alignment medium-text"
@@ -70,18 +96,23 @@ function DoctorHome() {
 							text="Select Open Time Slots"
 						/>
 					</div>
-					<div onClick={toggleToday} className="toggle-text medium-text left-align-text small-padding">
-						{todayVisible ? <p>Today ▼</p> : <p>Today ►</p>}
-					</div>
-					{todayVisible ? <AppointmentCard className="small-margin" /> : null}
-					<div onClick={toggleWeek} className="toggle-text medium-text left-align-text small-padding">
-						{weekVisible ? <p>This Week ▼</p> : <p>This Week ►</p>}
-					</div>
-					{weekVisible ? <AppointmentCard className="small-margin" /> : null}
-					<div onClick={toggleMonth} className="toggle-text medium-text left-align-text small-padding">
-						{monthVisible ? <p>This Month ▼</p> : <p>This Month ►</p>}
-					</div>
-					{monthVisible ? <AppointmentCard className="small-margin" /> : null}
+					{
+						isListView ? (
+							<DoctorListView />
+						) : (
+							<div style={{ display: 'flex', justifyContent: 'space-around', margin: '10px' }}>
+								<DoctorCalendarView
+									selectedDay={selectedDay}
+									selectedMonth={selectedMonth}
+									selectedYear={selectedYear}
+									handleMonthChange={handleMonthChange}
+									handleYearChange={handleYearChange}
+									setSelectedDay={setSelectedDay}
+								/>
+							</div>
+						)
+					}
+					<div style={{ height: '100px' }}></div>
 				</div>
 				<div className="gray-shade"></div>
 			</div>

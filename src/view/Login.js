@@ -17,7 +17,7 @@ function Login() {
 				<div className="gray-shade"></div>
 				<div>
 					<div>
-						<img src={logo} alt="Patient Tracker logo" class="logo" />
+						<img src={logo} alt="Patient Tracker logo" className="logo" />
 					</div>
 					<div className="short-text-field">
 						<ShortTextField
