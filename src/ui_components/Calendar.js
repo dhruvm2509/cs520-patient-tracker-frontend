@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
-import PillButton from './PillButton';
+import React from 'react';
 
+const calendarWidth = 580;
+const innerMargin = 10;
+const monthYearHeight = 80;
+
+/*
+props include the following:
+	selectedDay
+	selectedMonth
+	selectedYear
+	handleMonthChange
+	handleYearChange
+	setSelectedDay
+*/
 function Calendar(props) {
-
-	const calendarWidth = 580;
-	const innerMargin = 10;
-	const monthYearHeight = 80;
 
 	const appointmentCardStyle = {
 		backgroundColor: props.backgroundColor || '#4620c5ff',
@@ -56,33 +64,11 @@ function Calendar(props) {
 		'September', 'October', 'November', 'December'
 	];
 
-
-	// Day selector
-	const currentDay = new Date().getDate();
-	const [selectedDay, setSelectedDay] = useState(currentDay);
-
-	// Month selector
-	const currentMonth = new Date().getMonth();
-	const [selectedMonth, setSelectedMonth] = useState(currentMonth);
-
-	// Year selector
-	const currentYear = new Date().getFullYear();
-	const [selectedYear, setSelectedYear] = useState(currentYear);
-
 	const years = [];
 
-	for (let year = currentYear; year <= currentYear + 10; year++) {
+	for (let year = new Date().getFullYear(); year <= new Date().getFullYear() + 10; year++) {
 		years.push(<option key={year} value={year}>{year}</option>);
 	}
-
-	// Handle year/month updates
-	const handleMonthChange = (event) => {
-		setSelectedMonth(months.indexOf(event.target.value));
-	};
-
-	const handleYearChange = (event) => {
-		setSelectedYear(event.target.value);
-	};
 
 	// Get day of week of 1st of month
 	function getMonthStartDay(year, month) {
@@ -99,16 +85,36 @@ function Calendar(props) {
 	// Draw days boxes
 	function boxesGrid() {
 		const boxesGrid = [];
-		let xPos = getMonthStartDay(selectedYear, selectedMonth);
-		for (let day = 1; day <= getDaysInMonth(selectedYear, selectedMonth); day++) {
+		let xPos = getMonthStartDay(props.selectedYear, props.selectedMonth);
+		for (let day = 1; day <= getDaysInMonth(props.selectedYear, props.selectedMonth); day++) {
 
 			let dayBoxStyle = {
 				...{
 					top: (40 + 80 * Math.floor((xPos + day - 1) / 7)) + 'px',
-					left: 80 * ((xPos + day - 1) % 7) + 'px',
-					backgroundColor: day == selectedDay ? '#4620c5ff' : '#5142ffff'
+					left: 80 * ((xPos + day - 1) % 7) + 'px'
 				},
 				...dayStyle
+			};
+
+			let backgroundColor = '#5142ffff';
+			if (day === props.selectedDay) {
+				backgroundColor = '#4620c5ff';
+			}
+
+			const todaysDate = new Date();
+			const selectedDate = new Date(props.selectedYear, props.selectedMonth, day);
+			if (selectedDate < todaysDate &&
+				!(todaysDate.getDay() === selectedDate.getDay() &&
+					todaysDate.getMonth() === selectedDate.getMonth() &&
+					todaysDate.getFullYear() === selectedDate.getFullYear())) {
+				backgroundColor = 'gray';
+			}
+
+			dayBoxStyle = {
+				...{
+					backgroundColor: backgroundColor
+				},
+				...dayBoxStyle
 			};
 
 			boxesGrid.push(
@@ -116,7 +122,7 @@ function Calendar(props) {
 					key={`${day % 7},${Math.floor(day / 7)}`}
 					style={dayBoxStyle}
 					className='medium-text'
-					onClick={() => setSelectedDay(day)}
+					onClick={() => props.setSelectedDay(day)}
 				>
 					{day}
 				</div >
@@ -129,8 +135,8 @@ function Calendar(props) {
 		return 80 * (
 			Math.ceil(
 				(
-					getMonthStartDay(selectedYear, selectedMonth) +
-					getDaysInMonth(selectedYear, selectedMonth)
+					getMonthStartDay(props.selectedYear, props.selectedMonth) +
+					getDaysInMonth(props.selectedYear, props.selectedMonth)
 				) / 7)
 		);
 	}
@@ -146,8 +152,8 @@ function Calendar(props) {
 				<div style={{ height: '90px' }} className='row-container'>
 					<select
 						id="yearSelection"
-						value={selectedYear}
-						onChange={handleYearChange}
+						value={props.selectedYear}
+						onChange={props.handleYearChange}
 						style={selectorStyle}
 						className='large-text small-margin bold-text'
 					>
@@ -156,8 +162,8 @@ function Calendar(props) {
 					<select
 						style={selectorStyle}
 						className='large-text small-margin bold-text'
-						value={months[selectedMonth]}
-						onChange={handleMonthChange}
+						value={months[props.selectedMonth]}
+						onChange={props.handleMonthChange}
 					>
 						<option value="January">January</option>
 						<option value="February">February</option>

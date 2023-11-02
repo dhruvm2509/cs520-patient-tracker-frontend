@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import sickPatient from './../resources/SickPatientPlaceholder.png';
 import PillButton from './PillButton';
 
@@ -8,6 +8,7 @@ function AppointmentCard(props) {
 	const appointmentCardStyle = {
 		backgroundColor: props.backgroundColor || '#5142ffff',
 		borderRadius: '20px',
+		fontWeight: 'bold',
 		height: '150px'
 	};
 
