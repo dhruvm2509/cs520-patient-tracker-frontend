@@ -104,10 +104,13 @@ function Calendar(props) {
 			const todaysDate = new Date();
 			const selectedDate = new Date(props.selectedYear, props.selectedMonth, day);
 			if (selectedDate < todaysDate &&
-				!(todaysDate.getDay() === selectedDate.getDay() &&
+				!(todaysDate.getDate() === selectedDate.getDate() &&
 					todaysDate.getMonth() === selectedDate.getMonth() &&
 					todaysDate.getFullYear() === selectedDate.getFullYear())) {
 				backgroundColor = 'gray';
+				if (day === props.selectedDay) {
+					backgroundColor = '#555555';
+				}
 			}
 
 			dayBoxStyle = {

@@ -1,7 +1,26 @@
-/* 
-Primary color: #5142ffff
-Secondary color: #4620c5ff
-*/
+.primary-color {
+	color: #5142ffff
+}
+
+.dark-primary-color {
+	color: #4620c5ff
+}
+
+.white-color {
+	color: white
+}
+
+.black-color {
+	color: black
+}
+
+.gray-color {
+	color: gray
+}
+
+.dark-gray-color {
+	color: #555555ff
+}
 
 .header-background {
 	padding: 20px;
@@ -11,6 +30,7 @@ Secondary color: #4620c5ff
 .header-text {
 	font-size: 50px;
 	text-align: center;
+	color: white
 }
 
 .text-link {

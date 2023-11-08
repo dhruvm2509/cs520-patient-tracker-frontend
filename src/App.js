@@ -3,7 +3,6 @@ import './App.css';
 import Login from './view/Login.js';
 
 function App() {
-
   return (
     <Login />
   );

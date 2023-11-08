@@ -24,7 +24,7 @@ function AppointmentCard(props) {
 		<div style={mergedStyle} className={`row-container ${props.className}`}>
 			<img src={sickPatient} alt='Sick patient placeholder' style={profileImageStyle} className='circle-border' />
 			<div className="left-align-items">
-				<div className="medium-text small-margin">Bob Smith | Wed, Oct 25 | 12:00pm - 12:30pm</div>
+				<div className="medium-text small-margin white-color">Bob Smith | Wed, Oct 25 | 12:00pm - 12:30pm</div>
 				<PillButton
 					color="black"
 					backgroundColor="white"
