@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DoctorPatientProfile.css';
 import patientImage from './../resources/SickPatientPlaceholder.png';
 import doctorImage from './../resources/DoctorPlaceholder.jpg';
@@ -25,6 +26,16 @@ function DoctorPatientProfile() {
 		setPreviousDiagnosesVisibility(!previousDiagnosesVisible);
 	}
 
+	const navigate = useNavigate();
+
+	const handleDoctorProfileClick = () => {
+		navigate('/doctor-profile');
+	};
+
+	const handleBackButtonClick = () => {
+		navigate(-1);
+	};
+
 	return (
 		<div className="doctor-patient-profile">
 			<div className="doctor-header-container header-text header-background">
@@ -33,7 +44,7 @@ function DoctorPatientProfile() {
 					Patient Tracker Web App
 				</div>
 				<div className="profile-signout">
-					<img src={doctorImage} alt="Doctor profile" className="circle-border profile-size" />
+					<img src={doctorImage} onClick={handleDoctorProfileClick} alt="Doctor profile" className="circle-border profile-size clickable-pointer" />
 					<div>
 						<PillButton
 							className="pill-alignment small-text"
@@ -59,7 +70,7 @@ function DoctorPatientProfile() {
 							pixelWidth="100"
 							pixelHeight="50"
 							text="Back"
-							link="/doctor-home"
+							onClick={handleBackButtonClick}
 						/>
 					</div>
 					<div className="left-right-container">

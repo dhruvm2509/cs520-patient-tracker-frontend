@@ -95,3 +95,7 @@
 .right-align-text {
 	text-align: right;
 }
+
+.clickable-pointer {
+	cursor: pointer;
+}

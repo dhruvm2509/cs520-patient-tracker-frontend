@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-//import { Document, Page } from 'react-pdf';
+import React from 'react';
 import pdfTemplate from './../resources/LoremIpsum.pdf';
 
 function PdfViewer(props) {
 	return (
-		<div>
-			<object data={pdfTemplate} type="application/pdf" className={props.className} style={props.style} />
-		</div>
+		<object
+			data={pdfTemplate}
+			type="application/pdf"
+			aria-label="Embedded PDF document"
+			className={props.className}
+			style={props.style} />
 	);
 }
 

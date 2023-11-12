@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import DoctorHome from './view/DoctorHome';
 import DoctorPatientProfile from './view/DoctorPatientProfile';
+import DoctorProfile from './view/DoctorProfile';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: '/doctor-patient-profile',
     element: <DoctorPatientProfile />
+  },
+  {
+    path: '/doctor-profile',
+    element: <DoctorProfile />
   }
 ]);
 
