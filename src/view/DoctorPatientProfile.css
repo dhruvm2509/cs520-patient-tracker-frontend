@@ -1,0 +1,19 @@
+.left-right-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	width: 100%;
+}
+
+.large-patient-profile {
+	width: 200px;
+	height: 200px;
+}
+
+.line-spacing {
+	line-height: 1.5;
+}
+
+.pdf-style {
+	width: 90%;
+	height: 700px;
+}

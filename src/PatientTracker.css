@@ -76,10 +76,22 @@
 	margin: 10px;
 }
 
+.large-margin {
+	margin: 40px;
+}
+
 .left-align-items {
 	text-align: left;
 }
 
 .bold-text {
 	font-weight: bold;
+}
+
+.left-align-text {
+	text-align: right;
+}
+
+.right-align-text {
+	text-align: right;
 }

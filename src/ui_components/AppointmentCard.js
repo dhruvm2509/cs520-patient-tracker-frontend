@@ -32,6 +32,7 @@ function AppointmentCard(props) {
 					pixelHeight="40"
 					text="View Records"
 					className="small-text small-margin"
+					link="/doctor-patient-profile"
 				/>
 			</div>
 		</div>
