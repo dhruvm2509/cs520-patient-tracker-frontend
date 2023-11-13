@@ -101,6 +101,7 @@ function DoctorHome() {
 							pixelWidth="250"
 							pixelHeight="50"
 							text="Select Open Time Slots"
+							link="/doctor-select-appointments"
 						/>
 					</div>
 					{
