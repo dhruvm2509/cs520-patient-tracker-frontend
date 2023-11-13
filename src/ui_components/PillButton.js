@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function PillButton(props) {
 
@@ -16,17 +16,21 @@ function PillButton(props) {
 
 	const mergedStyle = { ...pillButtonStyle, ...props.style };
 
+	const navigate = useNavigate();
+
+	const handleLinkClick = () => {
+		navigate(props.link);
+	};
+
 	if (props.link) {
 		return (
-			<Link style={{ textDecoration: 'none' }} to={props.link}>
-				<button
-					style={mergedStyle}
-					onClick={props.onClick}
-					className={props.className}
-				>
-					{props.text}
-				</button>
-			</Link>
+			<button
+				style={mergedStyle}
+				onClick={handleLinkClick}
+				className={props.className}
+			>
+				{props.text}
+			</button>
 		);
 	} else {
 		return (

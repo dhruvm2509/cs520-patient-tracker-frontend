@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DoctorHome.css';
 import doctorImage from './../resources/DoctorPlaceholder.jpg';
 import PillButton from '../ui_components/PillButton';
@@ -43,6 +44,12 @@ function DoctorHome() {
 		setSelectedDay(1);
 	};
 
+	const navigate = useNavigate();
+
+	const handleDoctorProfileClick = () => {
+		navigate('/doctor-profile');
+	};
+
 	return (
 
 		<div className="doctor-home">
@@ -52,7 +59,7 @@ function DoctorHome() {
 					Patient Tracker Web App
 				</div>
 				<div className="profile-signout">
-					<img src={doctorImage} alt="Doctor profile" className="circle-border profile-size" />
+					<img src={doctorImage} alt="Doctor profile" onClick={handleDoctorProfileClick} className="circle-border profile-size clickable-pointer" />
 					<div>
 						<PillButton
 							className="pill-alignment small-text"
@@ -94,6 +101,7 @@ function DoctorHome() {
 							pixelWidth="250"
 							pixelHeight="50"
 							text="Select Open Time Slots"
+							link="/doctor-select-appointments"
 						/>
 					</div>
 					{

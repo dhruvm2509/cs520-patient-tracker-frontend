@@ -8,6 +8,9 @@ import {
   RouterProvider
 } from 'react-router-dom';
 import DoctorHome from './view/DoctorHome';
+import DoctorPatientProfile from './view/DoctorPatientProfile';
+import DoctorProfile from './view/DoctorProfile';
+import DoctorSelectAppointments from './view/DoctorSelectAppointments';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +24,18 @@ const router = createBrowserRouter([
   {
     path: '/doctor-home',
     element: <DoctorHome />
+  },
+  {
+    path: '/doctor-patient-profile',
+    element: <DoctorPatientProfile />
+  },
+  {
+    path: '/doctor-profile',
+    element: <DoctorProfile />
+  },
+  {
+    path: '/doctor-select-appointments',
+    element: <DoctorSelectAppointments />
   }
 ]);
 
