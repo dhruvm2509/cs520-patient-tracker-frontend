@@ -33,10 +33,6 @@ function Login() {
 						/>
 					</div>
 
-					<div className="text-link">
-						<Link to='/'><u>Forgot Password?</u></Link>
-					</div>
-
 					<div className="login-button">
 						<PillButton
 							className="medium-text"
@@ -49,7 +45,7 @@ function Login() {
 					</div>
 
 					<div className="text-link">
-						<Link to='/'><u>Sign Up</u></Link>
+						<Link to='/signup'><u>Sign Up</u></Link>
 					</div>
 				</div>
 				<div className="gray-shade"></div>

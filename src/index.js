@@ -11,6 +11,7 @@ import DoctorHome from './view/DoctorHome';
 import DoctorPatientProfile from './view/DoctorPatientProfile';
 import DoctorProfile from './view/DoctorProfile';
 import DoctorSelectAppointments from './view/DoctorSelectAppointments';
+import AddProfile from './view/AddProfile.js';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <App />
+  },
+  {
+    path: '/signup',
+    element: <AddProfile />
   },
   {
     path: '/doctor-home',

@@ -1,0 +1,18 @@
+.profile-image-size {
+	width: 200px;
+	height: 200px;
+}
+
+.row-height {
+	height: 200px;
+}
+
+.signup-row-container {
+	display: flex;
+	align-items: center;
+	height: 70px;
+}
+
+.address-width {
+	width: 400px;
+}
