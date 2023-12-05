@@ -16,6 +16,12 @@ function DoctorProfile() {
 		navigate(-1);
 	};
 
+	const handleDelete = () => {
+		if (window.confirm("Are you sure you want to delete your account?")) {
+			navigate('/login');
+		}
+	};
+
 	return (
 		<div className="doctor-patient-profile">
 			<div className="doctor-header-container header-text header-background">
@@ -64,6 +70,15 @@ function DoctorProfile() {
 						Sex: M<br />
 						Address: 1 Main Street, Amherst, MA, 12345
 					</div>
+					<PillButton
+						className="small-text bold-text"
+						pixelWidth="200"
+						pixelHeight="50"
+						color="white"
+						backgroundColor="red"
+						text="Delete Account"
+						onClick={handleDelete}
+					/>
 					<div style={{ height: '50px' }}></div>
 				</div>
 				<div className="gray-shade"></div>
