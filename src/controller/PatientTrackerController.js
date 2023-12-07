@@ -18,6 +18,20 @@ class PatientTrackerController {
 		}
 	}
 
+	async getUser(username) {
+		const response = await fetch(`http://127.0.0.1:5000/users/${username}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		if (response.ok) {
+			return response
+		}
+		return null;
+	}
+
 	async createUser(isDoctor, username, name, birthdate, password, ssn, gender, address1, address2, city, state, zip, imageUrl) {
 		const userData = {
 			"_id": username,

@@ -9,7 +9,6 @@ import patientImage from './../resources/SickPatientPlaceholder.png';
 import PatientTrackerController from '../controller/PatientTrackerController';
 import PatientTrackerModel from '../model/PatientTrackerModel';
 
-
 function AddProfile() {
 
 	const model = new PatientTrackerModel();
@@ -126,9 +125,9 @@ function AddProfile() {
 				return;
 			}
 
-
 			const response = await controller.createUser(
 				isDoctor,
+				username,
 				name,
 				birthDateFormatted,
 				password1,
@@ -138,7 +137,8 @@ function AddProfile() {
 				address2,
 				city,
 				state,
-				zip
+				zip,
+				imageUrl
 			);
 
 			if (response.ok) {
@@ -148,6 +148,9 @@ function AddProfile() {
 					navigate('/');
 				}
 			}
+
+
+
 		}
 	};
 
