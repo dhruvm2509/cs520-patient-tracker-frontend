@@ -54,3 +54,5 @@ class PatientTrackerModel {
 	}
 
 }
+
+export default PatientTrackerModel;

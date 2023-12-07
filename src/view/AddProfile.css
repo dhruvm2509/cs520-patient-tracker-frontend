@@ -16,3 +16,18 @@
 .address-width {
 	width: 400px;
 }
+
+.center-items {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.xsmall-text {
+	font-size: 15px;
+}
+
+.red-text {
+	color: red;
+	padding: 10px;
+}
