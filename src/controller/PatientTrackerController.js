@@ -3,6 +3,21 @@ class PatientTrackerController {
 		this.model = model;
 	}
 
+	async getAppointments(username) {
+		const response = await fetch(`http://127.0.0.1:5000/${username}/appointments`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		if (response.ok) {
+			return response
+		} else if (response.status === 404) {
+			return null;
+		}
+	}
+
 	async checkUserExists(username) {
 		const response = await fetch(`http://127.0.0.1:5000/users/${username}`, {
 			method: 'GET',

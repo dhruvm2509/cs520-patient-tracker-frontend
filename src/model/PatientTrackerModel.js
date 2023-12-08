@@ -5,52 +5,16 @@ class PatientTrackerModel {
 		this.appointments = {};
 	}
 
-	addDoctor(doctor) {
-		this.doctors[doctor.id] = doctor;
+	getAppointmentsByDate(appointments, date) {
+
 	}
 
-	addPatient(patient) {
-		this.patient[patient.id] = patient;
+	getAppointmentThisWeek(appointments, date) {
+
 	}
 
-	addAppointment(appointment) {
-		this.appointment[appointment.id] = appointment;
-	}
+	getAppointmentThisMonth(appointments, date) {
 
-	addAllDoctors(doctors) {
-		this.doctors = doctors;
-	}
-
-	addAllPatients(patients) {
-		this.patients = patients;
-	}
-
-	addAllAppointments(appointments) {
-		this.appointments = appointments;
-	}
-
-	getDoctorById(id) {
-		return this.doctors[id];
-	}
-
-	getPatientById(id) {
-		return this.patients[id];
-	}
-
-	getAppointmentById(id) {
-		return this.appointments[id];
-	}
-
-	getAllDoctors() {
-		return this.doctors;
-	}
-
-	getAllPatients() {
-		return this.patients;
-	}
-
-	getAllAppointments() {
-		return this.appointments;
 	}
 
 }

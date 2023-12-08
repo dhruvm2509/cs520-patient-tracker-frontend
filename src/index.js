@@ -12,35 +12,36 @@ import DoctorPatientProfile from './view/DoctorPatientProfile';
 import DoctorProfile from './view/DoctorProfile';
 import DoctorSelectAppointments from './view/DoctorSelectAppointments';
 import AddProfile from './view/AddProfile.js';
+import { UserProvider } from './model/UserContext.js';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />
+    element: <UserProvider><App /></UserProvider>
   },
   {
     path: '/login',
-    element: <App />
+    element: <UserProvider><App /></UserProvider>
   },
   {
     path: '/signup',
-    element: <AddProfile />
+    element: <UserProvider><AddProfile /></UserProvider>
   },
   {
     path: '/doctor-home',
-    element: <DoctorHome />
+    element: <UserProvider><DoctorHome /></UserProvider>
   },
   {
     path: '/doctor-patient-profile',
-    element: <DoctorPatientProfile />
+    element: <UserProvider><DoctorPatientProfile /></UserProvider>
   },
   {
     path: '/doctor-profile',
-    element: <DoctorProfile />
+    element: <UserProvider><DoctorProfile /></UserProvider>
   },
   {
     path: '/doctor-select-appointments',
-    element: <DoctorSelectAppointments />
+    element: <UserProvider><DoctorSelectAppointments /></UserProvider>
   }
 ]);
 

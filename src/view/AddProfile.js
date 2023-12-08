@@ -8,11 +8,17 @@ import doctorImage from './../resources/DoctorPlaceholder.jpg';
 import patientImage from './../resources/SickPatientPlaceholder.png';
 import PatientTrackerController from '../controller/PatientTrackerController';
 import PatientTrackerModel from '../model/PatientTrackerModel';
+import { useUser } from './../model/UserContext';
 
 function AddProfile() {
 
+
 	const model = new PatientTrackerModel();
 	const controller = new PatientTrackerController(model);
+
+
+	// User session between webpages
+	const { login } = useUser();
 
 	// Name
 	const [name, setName] = useState('');
@@ -142,6 +148,7 @@ function AddProfile() {
 			);
 
 			if (response.ok) {
+				login({ usernameId: username });
 				if (isDoctor) {
 					navigate('/doctor-home');
 				} else {

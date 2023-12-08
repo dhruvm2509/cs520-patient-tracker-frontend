@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DoctorHome.css';
 import doctorImage from './../resources/DoctorPlaceholder.jpg';
@@ -6,8 +6,37 @@ import PillButton from '../ui_components/PillButton';
 import ShortTextField from '../ui_components/ShortTextField';
 import DoctorCalendarView from '../ui_components/DoctorCalendarView';
 import DoctorListView from '../ui_components/DoctorListView';
+import PatientTrackerController from '../controller/PatientTrackerController';
+import PatientTrackerModel from '../model/PatientTrackerModel';
+import { useUser } from './../model/UserContext';
 
 function DoctorHome() {
+
+	// MVC model and controller
+	const model = new PatientTrackerModel();
+	const controller = new PatientTrackerController(model);
+
+	// User id for session
+	const { userId } = useUser();
+
+	const [appointments, setAppointments] = useState([]);
+
+	const [appointmentsToday, setAppointmentsToday] = useState([]);
+
+	const [appointmentsWeek, setAppointmentsWeek] = useState([]);
+
+	const [appointmentsMonth, setAppointmentsMonth] = useState([]);
+
+	const [appointmentsOnDate, setAppointmentsOnDate] = useState([]);
+
+	useEffect(() => {
+		const retreivedAppointments = controller.getAppointments(userId);
+		if (retreivedAppointments === null) {
+			console.error('Error fetching appointments:');
+			return;
+		}
+		setAppointments(retreivedAppointments);
+	}, []);
 
 	const [isListView, setIsListView] = useState(true);
 
