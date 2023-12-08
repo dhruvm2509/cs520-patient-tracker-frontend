@@ -106,8 +106,9 @@ function AddProfile() {
 				if (ssnFormatted.toString().length !== 9) {
 					invalidInfo = true;
 					setInvalidSsn(true);
+				} else {
+					setInvalidSsn(false);
 				}
-				setInvalidSsn(false);
 			} catch {
 				invalidInfo = true;
 				setInvalidSsn(true);
@@ -445,6 +446,11 @@ function AddProfile() {
 
 
 					{/* Check input validation */}
+					{invalidUsername &&
+						<div className="signup-row-container">
+							<div className="red-text">Invalid username</div>
+						</div>
+					}
 					{usernameExists &&
 						<div className="signup-row-container">
 							<div className="red-text">Username already exists. Create a new username.</div>
@@ -458,11 +464,6 @@ function AddProfile() {
 					{invalidSsn &&
 						<div className="signup-row-container">
 							<div className="red-text">Invalid SSN, use format 012-34-5678</div>
-						</div>
-					}
-					{invalidUsername &&
-						<div className="signup-row-container">
-							<div className="red-text">Invalid username</div>
 						</div>
 					}
 
