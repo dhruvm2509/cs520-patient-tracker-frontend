@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './DoctorHome.css';
 import doctorImage from './../resources/DoctorPlaceholder.jpg';
 import PillButton from '../ui_components/PillButton';
@@ -8,7 +8,7 @@ import DoctorCalendarView from '../ui_components/DoctorCalendarView';
 import DoctorListView from '../ui_components/DoctorListView';
 import PatientTrackerController from '../controller/PatientTrackerController';
 import PatientTrackerModel from '../model/PatientTrackerModel';
-import { useUser } from './../model/UserContext';
+import AppointmentCard from '../ui_components/AppointmentCard';
 
 function DoctorHome() {
 
@@ -16,29 +16,71 @@ function DoctorHome() {
 	const model = new PatientTrackerModel();
 	const controller = new PatientTrackerController(model);
 
-	// User id for session
-	const { userId } = useUser();
+	const location = useLocation();
+	const userId = location.state?.username || "anonymousDoctor";
 
-	const [appointments, setAppointments] = useState([]);
-
+	const [allAppointments, setAllAppointments] = useState([]);
 	const [appointmentsToday, setAppointmentsToday] = useState([]);
-
 	const [appointmentsWeek, setAppointmentsWeek] = useState([]);
-
 	const [appointmentsMonth, setAppointmentsMonth] = useState([]);
 
-	const [appointmentsOnDate, setAppointmentsOnDate] = useState([]);
+	useEffect(() => {
+		async function retreivedAppointments() {
+			const retreivedAppointments = await controller.getAppointments(userId);
+			if (retreivedAppointments === null) {
+				console.error('Error fetching appointments:');
+				return;
+			}
+
+			const appointmentsObjects = await retreivedAppointments.json();
+			const appointments = Object.entries(appointmentsObjects).map(([key, value]) => ({ ...value }));
+			setAllAppointments(appointments);
+			setAppointmentsToday(model.getAppointmentsByDate(appointments, new Date()));
+			setAppointmentsWeek(model.getAppointmentThisWeek(appointments, new Date()));
+			setAppointmentsMonth(model.getAppointmentThisMonth(appointments, new Date()));
+		}
+		retreivedAppointments();
+
+	}, []);
+
+	const [imageLoaded, setImageLoaded] = useState(false);
+	const [imageSource, setImageSource] = useState('');
 
 	useEffect(() => {
-		const retreivedAppointments = controller.getAppointments(userId);
-		if (retreivedAppointments === null) {
-			console.error('Error fetching appointments:');
-			return;
+		async function retrieveProfilePic() {
+			const response = await controller.getUser(userId);
+			if (!response.ok) {
+				return;
+			}
+			const doctorUser = await response.json();
+			const imageUrl = doctorUser?.imageUrl || null;
+			if (imageUrl !== null) {
+				try {
+					const response = await fetch(imageUrl);
+					if (!response.ok) {
+						setImageLoaded(false);
+						return;
+					}
+					const blob = await response.blob();
+					if (blob.type === 'image/png' || blob.type === 'image/jpeg') {
+						const imageSource = URL.createObjectURL(blob);
+						setImageSource(imageSource);
+						setImageLoaded(true);
+					} else {
+						setImageLoaded(false);
+					}
+
+				} catch {
+					setImageLoaded(false);
+				}
+			}
 		}
-		setAppointments(retreivedAppointments);
+
+		retrieveProfilePic();
 	}, []);
 
 	const [isListView, setIsListView] = useState(true);
+	const [isSearchView, setIsSearchView] = useState(false);
 
 	// Day selector
 	const currentDay = new Date().getDate();
@@ -59,6 +101,7 @@ function DoctorHome() {
 	];
 
 	const listViewToggle = (event) => {
+		setIsSearchView(false);
 		setIsListView(!isListView);
 	};
 
@@ -73,10 +116,61 @@ function DoctorHome() {
 		setSelectedDay(1);
 	};
 
+	const [searchText, setSearchText] = useState('');
+	const handleSearchTextChange = (event) => {
+		setSearchText(event.target.value);
+	};
+
+	const [searchAppointments, setSearchAppointments] = useState(<p>Searching...</p>);
+
+	const [searchClicked, setSearchClicked] = useState(false);
+	useEffect(() => {
+		async function searchedAppointments() {
+			setSearchAppointments(<p>Loading...</p>);
+			const retreivedAppointments = await model.getAppointmentBySearch(allAppointments, controller, searchText);
+			const appointmentCards = [];
+			for (let i = 0; i < retreivedAppointments.length; i++) {
+				const patientName = (await controller.getUser(retreivedAppointments[i].patient_id))?.name || '';
+				appointmentCards.push(
+					<AppointmentCard
+						key={"AppointmentCard" + i}
+						className="small-margin"
+						date={model.getDateFromFormat(retreivedAppointments[i].date)}
+						name={patientName}
+						onClick={handleViewPatientClick}
+						patientId={patientName}
+					/>
+				);
+			}
+			if (appointmentCards.length === 0) {
+				setSearchAppointments(<p>No matching results</p>);
+			} else {
+				setSearchAppointments(appointmentCards);
+			}
+		}
+		searchedAppointments();
+
+	}, [searchClicked]);
+
+
+	const handleSearchClick = (event) => {
+		setIsSearchView(true);
+		setSearchClicked(!searchClicked);
+	};
+
 	const navigate = useNavigate();
 
 	const handleDoctorProfileClick = () => {
-		navigate('/doctor-profile');
+		navigate('/doctor-profile', { state: { username: userId } });
+	};
+
+	const handleTimeSlotsClick = () => {
+		navigate('/doctor-select-appointments', { state: { username: userId } });
+	};
+
+	const handleViewPatientClick = (event) => {
+		console.log(event.target.key);
+		navigate('/doctor-patient-profile', { state: { username: userId } });
 	};
 
 	return (
@@ -88,7 +182,12 @@ function DoctorHome() {
 					Patient Tracker Web App
 				</div>
 				<div className="profile-signout">
-					<img src={doctorImage} alt="Doctor profile" onClick={handleDoctorProfileClick} className="circle-border profile-size clickable-pointer" />
+					<img
+						src={imageLoaded ? imageSource : doctorImage}
+						alt="Doctor profile"
+						onClick={handleDoctorProfileClick}
+						className="circle-border profile-size clickable-pointer"
+					/>
 					<div>
 						<PillButton
 							className="pill-alignment small-text"
@@ -114,8 +213,12 @@ function DoctorHome() {
 							pixelWidth="100"
 							pixelHeight="50"
 							text="Search"
+							onClick={handleSearchClick}
 						/>
-						<ShortTextField className="search-field" />
+						<ShortTextField
+							className="search-field"
+							onChange={handleSearchTextChange}
+						/>
 					</div>
 					<div className="row-container small-padding equal-spacing">
 						<PillButton
@@ -130,24 +233,35 @@ function DoctorHome() {
 							pixelWidth="250"
 							pixelHeight="50"
 							text="Select Open Time Slots"
-							link="/doctor-select-appointments"
+							onClick={handleTimeSlotsClick}
 						/>
 					</div>
 					{
-						isListView ? (
-							<DoctorListView />
-						) : (
-							<div style={{ display: 'flex', justifyContent: 'space-around', margin: '10px' }}>
-								<DoctorCalendarView
-									selectedDay={selectedDay}
-									selectedMonth={selectedMonth}
-									selectedYear={selectedYear}
-									handleMonthChange={handleMonthChange}
-									handleYearChange={handleYearChange}
-									setSelectedDay={setSelectedDay}
+						isSearchView ?
+							(searchAppointments)
+							:
+							(isListView ? (
+								<DoctorListView
+									appointmentsToday={appointmentsToday}
+									appointmentsWeek={appointmentsWeek}
+									appointmentsMonth={appointmentsMonth}
+									handleViewPatientClick={handleViewPatientClick}
 								/>
-							</div>
-						)
+							) : (
+								<div style={{ display: 'flex', justifyContent: 'space-around', margin: '10px' }}>
+									<DoctorCalendarView
+										selectedDay={selectedDay}
+										selectedMonth={selectedMonth}
+										selectedYear={selectedYear}
+										handleMonthChange={handleMonthChange}
+										handleYearChange={handleYearChange}
+										setSelectedDay={setSelectedDay}
+										allAppointments={allAppointments}
+										handleViewPatientClick={handleViewPatientClick}
+									/>
+								</div>
+							))
+
 					}
 					<div style={{ height: '100px' }}></div>
 				</div>

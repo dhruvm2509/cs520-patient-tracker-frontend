@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, } from 'react-router-dom';
 import './AddProfile.css';
 import './../PatientTracker.css';
 import PillButton from '../ui_components/PillButton';
@@ -8,17 +8,12 @@ import doctorImage from './../resources/DoctorPlaceholder.jpg';
 import patientImage from './../resources/SickPatientPlaceholder.png';
 import PatientTrackerController from '../controller/PatientTrackerController';
 import PatientTrackerModel from '../model/PatientTrackerModel';
-import { useUser } from './../model/UserContext';
 
 function AddProfile() {
 
 
 	const model = new PatientTrackerModel();
 	const controller = new PatientTrackerController(model);
-
-
-	// User session between webpages
-	const { login } = useUser();
 
 	// Name
 	const [name, setName] = useState('');
@@ -149,9 +144,8 @@ function AddProfile() {
 			);
 
 			if (response.ok) {
-				login({ usernameId: username });
 				if (isDoctor) {
-					navigate('/doctor-home');
+					navigate('/doctor-home', { state: { username: username } });
 				} else {
 					navigate('/');
 				}

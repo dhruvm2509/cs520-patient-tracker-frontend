@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from '../ui_components/Calendar';
 import AppointmentCard from '../ui_components/AppointmentCard';
+import PatientTrackerController from '../controller/PatientTrackerController';
+import PatientTrackerModel from '../model/PatientTrackerModel';
 
 function DoctorCalendarView(props) {
+
+	// MVC model and controller
+	const model = new PatientTrackerModel();
+	const controller = new PatientTrackerController(model);
 
 	const appointmentHeaderStyle = {
 		marginTop: '40px',
@@ -32,6 +38,41 @@ function DoctorCalendarView(props) {
 		return 'th';
 	}
 
+	const renderAppointments = async (appointments, selectedYear, selectedMonth, selectedDay) => {
+
+		appointments = model.getAppointmentsByDate(appointments, new Date(selectedYear, selectedMonth, selectedDay));
+		const appointmentCards = [];
+		for (let i = 0; i < appointments.length; i++) {
+			const response = await controller.getUser(appointments[i].patient_id);
+			let patientName = '';
+			if (response !== null) {
+				patientName = (await response.json()).name;
+			}
+			appointmentCards.push(
+				<AppointmentCard
+					className="small-margin"
+					date={model.getDateFromFormat(appointments[i].date)}
+					name={patientName}
+					onClick={props.handleViewPatientClick}
+				/>
+			);
+		}
+
+		return appointmentCards;
+	};
+
+	const [allAppointments, setAllAppointments] = useState(<p>Loading...</p>);
+	useEffect(() => {
+		const setAppointmentCardsInfo = async () => {
+			setAllAppointments(await renderAppointments(
+				props.allAppointments, props.selectedYear, props.selectedMonth, props.selectedDay));
+		}
+
+		setAllAppointments(<p>Loading...</p>);
+		setAppointmentCardsInfo();
+
+	}, [props.allAppointments, props.selectedDay, props.selectedMonth, props.selectedYear]);
+
 	return (
 		<div>
 			<Calendar
@@ -45,9 +86,7 @@ function DoctorCalendarView(props) {
 			<div style={appointmentHeaderStyle} className="medium-text">
 				Appointments On: {daysOfWeek[selectedDate.getDay()]} {monthsOfYear[selectedDate.getMonth()]} {selectedDate.getDate() + dayEnding(selectedDate.getDate())}, {selectedDate.getFullYear()}
 			</div>
-			<AppointmentCard className="small-margin" />
-			<AppointmentCard className="small-margin" />
-			<AppointmentCard className="small-margin" />
+			{allAppointments}
 		</div>
 
 	);

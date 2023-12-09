@@ -7,16 +7,12 @@ import ShortTextField from '../ui_components/ShortTextField';
 import logo from './../resources/PatientTrackerLogo.png';
 import PatientTrackerController from '../controller/PatientTrackerController';
 import PatientTrackerModel from '../model/PatientTrackerModel';
-import { useUser } from './../model/UserContext';
 
 function Login() {
 
 	// MVC model and controller
 	const model = new PatientTrackerModel();
 	const controller = new PatientTrackerController(model);
-
-	// User session between webpages
-	const { login } = useUser();
 
 	// Username
 	const [invalidInput, setInvalidInput] = useState(false);
@@ -66,7 +62,7 @@ function Login() {
 
 
 		if (jsonResponse.doctorPatient === 0) {
-			navigate('/doctor-home');
+			navigate('/doctor-home', { state: { username: username } });
 		} else {
 			navigate('/');
 		}
