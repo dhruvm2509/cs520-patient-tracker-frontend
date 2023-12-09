@@ -60,8 +60,9 @@ function Login() {
 
 		const jsonResponse = await response.json();
 
+
 		if (jsonResponse.doctorPatient === 0) {
-			navigate('/doctor-home');
+			navigate('/doctor-home', { state: { username: username } });
 		} else {
 			navigate('/');
 		}

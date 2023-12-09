@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, } from 'react-router-dom';
 import './AddProfile.css';
 import './../PatientTracker.css';
 import PillButton from '../ui_components/PillButton';
@@ -10,6 +10,7 @@ import PatientTrackerController from '../controller/PatientTrackerController';
 import PatientTrackerModel from '../model/PatientTrackerModel';
 
 function AddProfile() {
+
 
 	const model = new PatientTrackerModel();
 	const controller = new PatientTrackerController(model);
@@ -144,7 +145,7 @@ function AddProfile() {
 
 			if (response.ok) {
 				if (isDoctor) {
-					navigate('/doctor-home');
+					navigate('/doctor-home', { state: { username: username } });
 				} else {
 					navigate('/');
 				}
