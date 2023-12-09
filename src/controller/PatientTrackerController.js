@@ -81,8 +81,13 @@ class PatientTrackerController {
 			"city": city,
 			"state": state,
 			"zip": zip,
-			"imageUrl": imageUrl
+			"imageUrl": imageUrl,
+			"appointmentIds": []
 		};
+
+		if (isDoctor) {
+			userData["availableSlots"] = []
+		}
 
 		const response = await fetch('http://127.0.0.1:5000/create_user', {
 			method: 'POST',

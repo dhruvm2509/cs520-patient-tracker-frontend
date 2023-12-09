@@ -169,7 +169,6 @@ function DoctorHome() {
 	};
 
 	const handleViewPatientClick = (event) => {
-		console.log(event.target.key);
 		navigate('/doctor-patient-profile', { state: { username: userId } });
 	};
 
