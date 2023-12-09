@@ -35,38 +35,41 @@ function Login() {
 
 	const handleInfoSubmit = async (event) => {
 
+		if (username === '') {
+			setInvalidInput(true);
+			return;
+		}
+
+		let validUser = null;
+		try {
+			validUser = await controller.signIn(username, password);
+		} catch (error) {
+			console.error('Error sign in user:', error);
+		}
+
+		if (validUser === null || !validUser) {
+			setInvalidInput(true);
+			return;
+		}
+
 		let response = null;
 		try {
-			if (username === '') {
-				setInvalidInput(true);
-				return;
-			}
 			response = await controller.getUser(username);
 			if (response === null || !response.ok) {
 				setInvalidInput(true);
 			}
 		} catch (error) {
-			console.error('Error checking user:', error);
-		}
-
-		if (response === null) {
-			setInvalidInput(true);
-			return;
+			console.error('Error getting user:', error);
 		}
 
 		const jsonResponse = await response.json();
 
-		if (jsonResponse.password === password) {
-			if (jsonResponse.doctorPatient === 0) {
-				login({ usernameId: username });
-				navigate('/doctor-home');
-			} else {
-				navigate('/');
-			}
-		} else {
-			setInvalidInput(true);
-		}
 
+		if (jsonResponse.doctorPatient === 0) {
+			navigate('/doctor-home');
+		} else {
+			navigate('/');
+		}
 
 	};
 
