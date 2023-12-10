@@ -97,6 +97,21 @@ class PatientTrackerController {
 		return response;
 	}
 
+	async deleteUser(userId, password) {
+		const response = await fetch(`http://127.0.0.1:5000/delete_user/${userId}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ "password": password })
+		});
+
+		if (response.ok) {
+			return true
+		}
+		return false;
+	}
+
 }
 
 export default PatientTrackerController;

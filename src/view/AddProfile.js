@@ -88,12 +88,14 @@ function AddProfile() {
 				invalidInfo = true;
 				setInvalidBirthdate(true);
 			}
+
 			let birthDateFormatted = birthDate;
 			try {
 				const day = parseInt(birthDate.substring(0, 2));
 				const month = parseInt(birthDate.substring(3, 5));
 				const year = parseInt(birthDate.substring(6, 10));
-				birthDateFormatted = new Date(year, month, day).toISOString();
+
+				birthDateFormatted = new Date(year, month - 1, day).toISOString();
 				setInvalidBirthdate(false);
 			} catch {
 				invalidInfo = true;

@@ -50,6 +50,7 @@ function DoctorCalendarView(props) {
 			}
 			appointmentCards.push(
 				<AppointmentCard
+					key={`AppointmentCard${i}`}
 					className="small-margin"
 					date={model.getDateFromFormat(appointments[i].date)}
 					name={patientName}
@@ -71,6 +72,7 @@ function DoctorCalendarView(props) {
 		setAllAppointments(<p>Loading...</p>);
 		setAppointmentCardsInfo();
 
+		// eslint-disable-next-line
 	}, [props.allAppointments, props.selectedDay, props.selectedMonth, props.selectedYear]);
 
 	return (

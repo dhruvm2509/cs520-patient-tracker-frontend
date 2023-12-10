@@ -41,6 +41,7 @@ function DoctorHome() {
 		}
 		retreivedAppointments();
 
+		// eslint-disable-next-line
 	}, []);
 
 	const [imageLoaded, setImageLoaded] = useState(false);
@@ -72,6 +73,7 @@ function DoctorHome() {
 		}
 
 		retrieveProfilePic();
+		// eslint-disable-next-line
 	}, []);
 
 	const [isListView, setIsListView] = useState(true);
@@ -149,6 +151,7 @@ function DoctorHome() {
 		}
 		searchedAppointments();
 
+		// eslint-disable-next-line
 	}, [searchClicked]);
 
 

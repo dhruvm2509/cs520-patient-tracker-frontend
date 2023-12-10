@@ -35,6 +35,7 @@ function DoctorListView(props) {
 			const patientName = (await response.json()).name;
 			appointmentCards.push(
 				<AppointmentCard
+					key={`AppointmentCard${i}`}
 					className="small-margin"
 					date={model.getDateFromFormat(appointments[i].date)}
 					name={patientName}
@@ -55,6 +56,7 @@ function DoctorListView(props) {
 
 		setAppointmentCardsInfo();
 
+		// eslint-disable-next-line
 	}, [props.appointmentsToday, props.appointmentsWeek, props.appointmentsMonth]);
 
 

@@ -36,7 +36,7 @@ function AppointmentTimes(props) {
 				);
 			}
 			buttonsGrid.push(
-				<div className="row-container">{buttonsRow}</div>
+				<div key={`Row${i}`} className="row-container">{buttonsRow}</div>
 			);
 		}
 		return (

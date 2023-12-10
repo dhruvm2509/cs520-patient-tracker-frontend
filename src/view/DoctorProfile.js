@@ -1,26 +1,68 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './DoctorProfile.css';
 import doctorImage from './../resources/DoctorPlaceholder.jpg';
 import PillButton from '../ui_components/PillButton';
+import PatientTrackerController from '../controller/PatientTrackerController';
+import PatientTrackerModel from '../model/PatientTrackerModel';
 
 function DoctorProfile() {
 
+	// MVC model and controller
+	const model = new PatientTrackerModel();
+	const controller = new PatientTrackerController(model);
+
 	const navigate = useNavigate();
 
+	const location = useLocation();
+	const userState = location.state;
+
 	const handleDoctorProfileClick = () => {
-		navigate('/doctor-profile');
+		navigate('/doctor-profile', { state: userState });
 	};
 
 	const handleBackButtonClick = () => {
-		navigate(-1);
+		navigate(-1, { state: userState });
 	};
 
 	const handleDelete = () => {
 		if (window.confirm("Are you sure you want to delete your account?")) {
+			controller.deleteUser(userState._id, userState.password);
 			navigate('/login');
 		}
 	};
+
+	const [imageLoaded, setImageLoaded] = useState(false);
+	const [imageSource, setImageSource] = useState('');
+
+	useEffect(() => {
+		async function retrieveProfilePic() {
+			const imageUrl = userState.imageUrl;
+			if (imageUrl !== null) {
+				try {
+					const response = await fetch(imageUrl);
+					if (!response.ok) {
+						setImageLoaded(false);
+						return;
+					}
+					const blob = await response.blob();
+					if (blob.type === 'image/png' || blob.type === 'image/jpeg') {
+						const imageSource = URL.createObjectURL(blob);
+						setImageSource(imageSource);
+						setImageLoaded(true);
+					} else {
+						setImageLoaded(false);
+					}
+
+				} catch {
+					setImageLoaded(false);
+				}
+			}
+		}
+
+		retrieveProfilePic();
+		// eslint-disable-next-line
+	}, []);
 
 	return (
 		<div className="doctor-patient-profile">
@@ -30,7 +72,12 @@ function DoctorProfile() {
 					Patient Tracker Web App
 				</div>
 				<div className="profile-signout">
-					<img src={doctorImage} alt="Doctor profile" onClick={handleDoctorProfileClick} className="circle-border profile-size clickable-pointer" />
+					<img
+						src={imageLoaded ? imageSource : doctorImage}
+						alt="Doctor profile"
+						onClick={handleDoctorProfileClick}
+						className="circle-border profile-size clickable-pointer"
+					/>
 					<div>
 						<PillButton
 							className="pill-alignment small-text"
@@ -60,15 +107,18 @@ function DoctorProfile() {
 						/>
 					</div>
 					<div className="large-margin">
-						<img src={doctorImage} alt="Doctor profile" className="circle-border large-patient-profile" />
+						<img
+							src={imageLoaded ? imageSource : doctorImage}
+							alt="Doctor profile"
+							className="circle-border large-patient-profile"
+						/>
 					</div>
 					<div className="left-align-text large-margin medium-text line-spacing">
-						Name: Bob Smith<br />
-						Age: 23<br />
-						Birth Date: 01/01/2001<br />
-						SSN: 123-456-7890<br />
-						Sex: M<br />
-						Address: 1 Main Street, Amherst, MA, 12345
+						Name: {userState.name}<br />
+						Age: {model.getAge(model.getDateFromFormat(userState.DOB))}<br />
+						Birth Date: {model.getFormalDate(model.getDateFromFormat(userState.DOB))}<br />
+						Gender: {userState.gender}<br />
+						Address: {userState.address1 + (userState.address2?.length > 0 ? ', ' + userState.address2 : '')}, {userState.state}, {userState.city}, {userState.zip}
 					</div>
 					<PillButton
 						className="small-text bold-text"
