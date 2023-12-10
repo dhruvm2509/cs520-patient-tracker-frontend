@@ -18,22 +18,16 @@ class PatientTrackerController {
 		}
 	}
 
-	async checkUserExists(username) {
+	async checkUserExists(username, callerId) {
 		const response = await fetch(`http://127.0.0.1:5000/users/${username}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ "caller_id": username })
+			body: JSON.stringify({ "caller_id": callerId })
 		});
 
-		if (response.ok) {
-			return true
-		} else if (response.status === 404) {
-			return false;
-		}
-
-		throw new Error('Network response resulted in error');
+		return response.ok;
 	}
 
 	async signIn(username, password) {
@@ -46,19 +40,19 @@ class PatientTrackerController {
 		});
 
 		if (response.ok) {
-			return true
+			return await response.json();
 		} else if (response.status === 404) {
-			return false;
+			return null;
 		}
 	}
 
-	async getUser(username) {
+	async getUser(username, caller) {
 		const response = await fetch(`http://127.0.0.1:5000/users/${username}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ "caller_id": username })
+			body: JSON.stringify({ "caller_id": caller })
 		});
 
 		if (response.ok) {

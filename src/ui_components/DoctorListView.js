@@ -31,7 +31,8 @@ function DoctorListView(props) {
 
 		const appointmentCards = [];
 		for (let i = 0; i < appointments.length; i++) {
-			const patientName = (await controller.getUser(appointments[i].patient_id))?.name || '';
+			const response = await controller.getUser(appointments[i].patient_id, props.doctorId);
+			const patientName = (await response.json()).name;
 			appointmentCards.push(
 				<AppointmentCard
 					className="small-margin"

@@ -43,26 +43,13 @@ function Login() {
 			console.error('Error sign in user:', error);
 		}
 
-		if (validUser === null || !validUser) {
+		if (validUser === null) {
 			setInvalidInput(true);
 			return;
 		}
 
-		let response = null;
-		try {
-			response = await controller.getUser(username);
-			if (response === null || !response.ok) {
-				setInvalidInput(true);
-			}
-		} catch (error) {
-			console.error('Error getting user:', error);
-		}
-
-		const jsonResponse = await response.json();
-
-
-		if (jsonResponse.doctorPatient === 0) {
-			navigate('/doctor-home', { state: { username: username } });
+		if (validUser.doctorPatient === 0) {
+			navigate('/doctor-home', { state: validUser });
 		} else {
 			navigate('/');
 		}

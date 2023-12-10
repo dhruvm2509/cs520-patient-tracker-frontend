@@ -76,7 +76,7 @@ function AddProfile() {
 			} else {
 				setInvalidUsername(false);
 			}
-			fetchUserExists = await controller.checkUserExists(username);
+			fetchUserExists = await controller.checkUserExists(username, "anonymousDoctor");
 			setUsernameExists(fetchUserExists);
 		} catch (error) {
 			console.error('Error checking user:', error);
@@ -127,6 +127,24 @@ function AddProfile() {
 				return;
 			}
 
+			const userInfo = {
+				_id: username,
+				doctorPatient: isDoctor ? 0 : 1,
+				name: name,
+				DOB: birthDateFormatted,
+				password: password1,
+				SSN: ssnFormatted,
+				formIds: [],
+				appointmentIds: [],
+				gender: gender,
+				address1: address1,
+				address2: address2,
+				city: city,
+				state: state,
+				zip: zip,
+				imageUrl: imageUrl
+			};
+
 			const response = await controller.createUser(
 				isDoctor,
 				username,
@@ -145,7 +163,7 @@ function AddProfile() {
 
 			if (response.ok) {
 				if (isDoctor) {
-					navigate('/doctor-home', { state: { username: username } });
+					navigate('/doctor-home', { state: userInfo });
 				} else {
 					navigate('/');
 				}

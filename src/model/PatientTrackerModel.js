@@ -51,7 +51,7 @@ class PatientTrackerModel {
 		});
 	}
 
-	async getAppointmentBySearch(appointments, controller, search) {
+	async getAppointmentBySearch(appointments, controller, search, callerId) {
 		const monthNames = [
 			'January', 'February', 'March', 'April', 'May', 'June',
 			'July', 'August', 'Septempber', 'October', 'November', 'December'
@@ -80,12 +80,11 @@ class PatientTrackerModel {
 
 			const formattedDate = `${dayNames[appointmentDate.getDay()]}, ${month} ${day} |`
 				+ ` ${formatTime(hours, minutes)} - ${formatTime(shiftHours, shiftMinutes)}`;
-
-			const response = await controller.getUser(appointments[i].patient_id);
+			const response = await controller.getUser(appointments[i].patient_id, callerId);
 			let patientName = '';
 			if (response !== null) {
 				const user = await response.json();
-				patientName = user?.name || '';
+				patientName = user?.name;
 			}
 
 			if (formattedDate.toLowerCase().includes(search.toLowerCase()) ||

@@ -43,7 +43,7 @@ function DoctorCalendarView(props) {
 		appointments = model.getAppointmentsByDate(appointments, new Date(selectedYear, selectedMonth, selectedDay));
 		const appointmentCards = [];
 		for (let i = 0; i < appointments.length; i++) {
-			const response = await controller.getUser(appointments[i].patient_id);
+			const response = await controller.getUser(appointments[i].patient_id, props.doctorId);
 			let patientName = '';
 			if (response !== null) {
 				patientName = (await response.json()).name;

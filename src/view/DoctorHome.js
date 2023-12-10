@@ -17,7 +17,7 @@ function DoctorHome() {
 	const controller = new PatientTrackerController(model);
 
 	const location = useLocation();
-	const userId = location.state?.username || "anonymousDoctor";
+	const userState = location.state;
 
 	const [allAppointments, setAllAppointments] = useState([]);
 	const [appointmentsToday, setAppointmentsToday] = useState([]);
@@ -26,7 +26,7 @@ function DoctorHome() {
 
 	useEffect(() => {
 		async function retreivedAppointments() {
-			const retreivedAppointments = await controller.getAppointments(userId);
+			const retreivedAppointments = await controller.getAppointments(userState._id);
 			if (retreivedAppointments === null) {
 				console.error('Error fetching appointments:');
 				return;
@@ -48,12 +48,7 @@ function DoctorHome() {
 
 	useEffect(() => {
 		async function retrieveProfilePic() {
-			const response = await controller.getUser(userId);
-			if (!response.ok) {
-				return;
-			}
-			const doctorUser = await response.json();
-			const imageUrl = doctorUser?.imageUrl || null;
+			const imageUrl = userState?.imageUrl || null;
 			if (imageUrl !== null) {
 				try {
 					const response = await fetch(imageUrl);
@@ -127,10 +122,14 @@ function DoctorHome() {
 	useEffect(() => {
 		async function searchedAppointments() {
 			setSearchAppointments(<p>Loading...</p>);
-			const retreivedAppointments = await model.getAppointmentBySearch(allAppointments, controller, searchText);
+			const retreivedAppointments = await model.getAppointmentBySearch(allAppointments, controller, searchText, userState._id);
 			const appointmentCards = [];
 			for (let i = 0; i < retreivedAppointments.length; i++) {
-				const patientName = (await controller.getUser(retreivedAppointments[i].patient_id))?.name || '';
+				const response = await controller.getUser(retreivedAppointments[i].patient_id, userState._id);
+				let patientName = '';
+				if (response.ok) {
+					patientName = (await response.json()).name;
+				}
 				appointmentCards.push(
 					<AppointmentCard
 						key={"AppointmentCard" + i}
@@ -161,15 +160,15 @@ function DoctorHome() {
 	const navigate = useNavigate();
 
 	const handleDoctorProfileClick = () => {
-		navigate('/doctor-profile', { state: { username: userId } });
+		navigate('/doctor-profile', { state: userState });
 	};
 
 	const handleTimeSlotsClick = () => {
-		navigate('/doctor-select-appointments', { state: { username: userId } });
+		navigate('/doctor-select-appointments', { state: userState });
 	};
 
 	const handleViewPatientClick = (event) => {
-		navigate('/doctor-patient-profile', { state: { username: userId } });
+		navigate('/doctor-patient-profile', { state: userState });
 	};
 
 	return (
@@ -245,6 +244,7 @@ function DoctorHome() {
 									appointmentsWeek={appointmentsWeek}
 									appointmentsMonth={appointmentsMonth}
 									handleViewPatientClick={handleViewPatientClick}
+									doctorId={userState._id}
 								/>
 							) : (
 								<div style={{ display: 'flex', justifyContent: 'space-around', margin: '10px' }}>
@@ -257,6 +257,7 @@ function DoctorHome() {
 										setSelectedDay={setSelectedDay}
 										allAppointments={allAppointments}
 										handleViewPatientClick={handleViewPatientClick}
+										doctorId={userState._id}
 									/>
 								</div>
 							))
