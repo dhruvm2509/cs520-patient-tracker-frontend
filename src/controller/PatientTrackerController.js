@@ -41,7 +41,7 @@ class PatientTrackerController {
 
 		if (response.ok) {
 			return await response.json();
-		} else if (response.status === 404) {
+		} else {
 			return null;
 		}
 	}
