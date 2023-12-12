@@ -3,6 +3,23 @@ class PatientTrackerController {
 		this.model = model;
 	}
 
+	async updateUser(username, password, updatedUser) {
+		const response = await fetch(`http://127.0.0.1:5000/update_user/${username}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': 'http://127.0.0.1:5000'
+			},
+			body: JSON.stringify({ "username": username, "password": password, "update_param": updatedUser })
+		});
+
+		if (response.ok) {
+			return response.body;
+		} else {
+			return null;
+		}
+	}
+
 	async getAppointments(username) {
 		const response = await fetch(`http://127.0.0.1:5000/${username}/appointments`, {
 			method: 'GET',
@@ -76,7 +93,9 @@ class PatientTrackerController {
 			"state": state,
 			"zip": zip,
 			"imageUrl": imageUrl,
-			"appointmentIds": []
+			"appointmentIds": [],
+			"formIds": [],
+			"availableTimes": []
 		};
 
 		if (isDoctor) {

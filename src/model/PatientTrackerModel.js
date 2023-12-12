@@ -137,6 +137,74 @@ class PatientTrackerModel {
 		return age;
 	};
 
+	getAvailableSlots(user, date) {
+		const allSlots = user.availableSlots;
+
+		const targetDay = date.getDate();
+		const targetMonth = date.getMonth();
+		const targetYear = date.getFullYear();
+
+		const slotsOnDate = allSlots.filter(slot => {
+			const slotTime = new Date(Date.parse(slot));
+			const slotDay = slotTime.getDate();
+			const slotMonth = slotTime.getMonth();
+			const slotYear = slotTime.getFullYear();
+
+			return (
+				slotDay === targetDay &&
+				slotMonth === targetMonth &&
+				slotYear === targetYear
+			);
+		});
+
+
+		const daySlotTimes = slotsOnDate.map(slot => {
+			const slotDateTime = new Date(Date.parse(slot));
+			let slotHours = slotDateTime.getHours();
+			return slotHours + (slotDateTime.getMinutes() === 30 ? 0.5 : 0);
+		});
+
+		const slotAvailable = [];
+		for (let time = 5; time < 19; time += 0.5) {
+			slotAvailable.push(daySlotTimes.includes(time));
+		}
+
+		return slotAvailable;
+	}
+
+	setAvailableSlotsOnDay(user, date, timesAvailableOnDay) {
+		const allSlots = user.availableSlots;
+
+		const targetDay = date.getDate();
+		const targetMonth = date.getMonth();
+		const targetYear = date.getFullYear();
+
+		const slotsNotDate = allSlots.filter(slot => {
+
+			const slotTime = new Date(Date.parse(slot));
+			const slotDay = slotTime.getDate();
+			const slotMonth = slotTime.getMonth();
+			const slotYear = slotTime.getFullYear();
+
+			return (
+				slotDay !== targetDay ||
+				slotMonth !== targetMonth ||
+				slotYear !== targetYear
+			);
+		});
+
+		for (let i = 0; i < timesAvailableOnDay.length; i++) {
+			if (timesAvailableOnDay[i]) {
+				const targetHours = Math.floor(5 + (i * 0.5));
+				const targetMinutes = (i % 2 === 1) ? 30 : 0;
+				const newDateTime = new Date(targetYear, targetMonth, targetDay, targetHours, targetMinutes);
+				slotsNotDate.push(newDateTime.toString());
+			}
+		}
+
+		return slotsNotDate;
+	}
+
 }
 
 export default PatientTrackerModel;
