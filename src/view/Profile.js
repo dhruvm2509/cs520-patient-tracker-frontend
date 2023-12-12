@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './DoctorProfile.css';
+import './Profile.css';
 import doctorImage from './../resources/DoctorPlaceholder.jpg';
+import patientImage from './../resources/SickPatientPlaceholder.png';
 import PillButton from '../ui_components/PillButton';
 import PatientTrackerController from '../controller/PatientTrackerController';
 import PatientTrackerModel from '../model/PatientTrackerModel';
 
-function DoctorProfile() {
+function Profile() {
 
 	// MVC model and controller
 	const model = new PatientTrackerModel();
@@ -18,7 +19,7 @@ function DoctorProfile() {
 	const userState = location.state;
 
 	const handleDoctorProfileClick = () => {
-		navigate('/doctor-profile', { state: userState });
+		navigate('/profile', { state: userState });
 	};
 
 	const handleBackButtonClick = () => {
@@ -73,7 +74,7 @@ function DoctorProfile() {
 				</div>
 				<div className="profile-signout">
 					<img
-						src={imageLoaded ? imageSource : doctorImage}
+						src={imageLoaded ? imageSource : (userState.doctorPatient === 0 ? doctorImage : patientImage)}
 						alt="Doctor profile"
 						onClick={handleDoctorProfileClick}
 						className="circle-border profile-size clickable-pointer"
@@ -95,7 +96,7 @@ function DoctorProfile() {
 				<div className="gray-shade"></div>
 				<div>
 					<div className="large-text small-margin">
-						Doctor Information
+						{userState.doctorPatient === 0 ? "Doctor" : "Patient"} Information
 					</div>
 					<div className="row-container small-padding">
 						<PillButton
@@ -108,7 +109,7 @@ function DoctorProfile() {
 					</div>
 					<div className="large-margin">
 						<img
-							src={imageLoaded ? imageSource : doctorImage}
+							src={imageLoaded ? imageSource : (userState.doctorPatient === 0 ? doctorImage : patientImage)}
 							alt="Doctor profile"
 							className="circle-border large-patient-profile"
 						/>
@@ -137,4 +138,4 @@ function DoctorProfile() {
 	);
 }
 
-export default DoctorProfile;
+export default Profile;

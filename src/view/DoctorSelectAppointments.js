@@ -137,7 +137,7 @@ function DoctorSelectAppointments() {
 	const navigate = useNavigate();
 
 	const handleDoctorProfileClick = () => {
-		navigate('/doctor-profile', { state: userState });
+		navigate('/profile', { state: userState });
 	};
 
 	const handleBackButtonClick = () => {

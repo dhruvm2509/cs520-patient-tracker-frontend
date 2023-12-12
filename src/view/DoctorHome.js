@@ -163,7 +163,7 @@ function DoctorHome() {
 	const navigate = useNavigate();
 
 	const handleDoctorProfileClick = () => {
-		navigate('/doctor-profile', { state: userState });
+		navigate('/profile', { state: userState });
 	};
 
 	const handleTimeSlotsClick = () => {

@@ -10,7 +10,7 @@ import {
 import DoctorHome from './view/DoctorHome';
 import PatientHome from './view/PatientHome.js';
 import DoctorPatientProfile from './view/DoctorPatientProfile';
-import DoctorProfile from './view/DoctorProfile';
+import Profile from './view/Profile.js';
 import DoctorSelectAppointments from './view/DoctorSelectAppointments';
 import AddProfile from './view/AddProfile.js';
 
@@ -40,8 +40,8 @@ const router = createBrowserRouter([
     element: <DoctorPatientProfile />
   },
   {
-    path: '/doctor-profile',
-    element: <DoctorProfile />
+    path: '/profile',
+    element: <Profile />
   },
   {
     path: '/doctor-select-appointments',

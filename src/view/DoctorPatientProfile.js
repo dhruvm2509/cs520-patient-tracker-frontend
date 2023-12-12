@@ -29,7 +29,7 @@ function DoctorPatientProfile() {
 	const navigate = useNavigate();
 
 	const handleDoctorProfileClick = () => {
-		navigate('/doctor-profile');
+		navigate('/profile');
 	};
 
 	const handleBackButtonClick = () => {
