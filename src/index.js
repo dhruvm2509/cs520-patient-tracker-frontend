@@ -15,6 +15,7 @@ import DoctorSelectAppointments from './view/DoctorSelectAppointments';
 import AddProfile from './view/AddProfile.js';
 import PatientViewForms from './view/PatientViewForms.js';
 import DoctorViewForms from './view/DoctorViewForms.js';
+import PatientSelectAppointment from './view/PatientSelectAppointment.js';
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
   {
     path: '/doctor-select-appointments',
     element: <DoctorSelectAppointments />
+  },
+  {
+    path: '/patient-select-appointment',
+    element: <PatientSelectAppointment />
   }
 ]);
 

@@ -110,6 +110,10 @@ function DoctorHome() {
 
 	const navigate = useNavigate();
 
+	const handleAppointmentClick = () => {
+		navigate('/patient-select-appointment', { state: userState });
+	};
+
 	const handleFormsClick = () => {
 		navigate('/patient-view-forms', { state: userState });
 	};
@@ -161,7 +165,7 @@ function DoctorHome() {
 							pixelWidth="250"
 							pixelHeight="50"
 							text="Schedule Appointment"
-							onClick={() => { }}
+							onClick={handleAppointmentClick}
 						/>
 					</div>
 					<div className="large-text small-margin">
