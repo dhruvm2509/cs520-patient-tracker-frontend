@@ -134,6 +134,38 @@ function DoctorSelectAppointments() {
 
 	};
 
+	const [imageLoaded, setImageLoaded] = useState(false);
+	const [imageSource, setImageSource] = useState('');
+
+	useEffect(() => {
+		async function retrieveProfilePic() {
+			const imageUrl = userState.imageUrl;
+			if (imageUrl !== null) {
+				try {
+					const response = await fetch(imageUrl);
+					if (!response.ok) {
+						setImageLoaded(false);
+						return;
+					}
+					const blob = await response.blob();
+					if (blob.type === 'image/png' || blob.type === 'image/jpeg') {
+						const imageSource = URL.createObjectURL(blob);
+						setImageSource(imageSource);
+						setImageLoaded(true);
+					} else {
+						setImageLoaded(false);
+					}
+
+				} catch {
+					setImageLoaded(false);
+				}
+			}
+		}
+
+		retrieveProfilePic();
+		// eslint-disable-next-line
+	}, []);
+
 	const navigate = useNavigate();
 
 	const handleDoctorProfileClick = () => {
@@ -152,7 +184,7 @@ function DoctorSelectAppointments() {
 					Patient Tracker Web App
 				</div>
 				<div className="profile-signout">
-					<img src={doctorImage} alt="Doctor profile" onClick={handleDoctorProfileClick} className="circle-border profile-size clickable-pointer" />
+					<img src={imageLoaded ? imageSource : doctorImage} alt="Doctor profile" onClick={handleDoctorProfileClick} className="circle-border profile-size clickable-pointer" />
 					<div>
 						<PillButton
 							className="pill-alignment small-text"
