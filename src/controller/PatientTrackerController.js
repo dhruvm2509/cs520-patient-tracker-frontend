@@ -131,6 +131,20 @@ class PatientTrackerController {
 		return false;
 	}
 
+	async getUserForms(userId) {
+		const response = await fetch(`http://127.0.0.1:5000/${userId}/forms`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		if (response.ok) {
+			return response
+		}
+		return null;
+	}
+
 }
 
 export default PatientTrackerController;

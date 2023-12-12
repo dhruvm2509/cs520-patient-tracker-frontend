@@ -110,6 +110,10 @@ function DoctorHome() {
 
 	const navigate = useNavigate();
 
+	const handleFormsClick = () => {
+		navigate('/patient-view-forms', { state: userState });
+	};
+
 	const handleDoctorProfileClick = () => {
 		navigate('/profile', { state: userState });
 	};
@@ -150,7 +154,7 @@ function DoctorHome() {
 							pixelWidth="200"
 							pixelHeight="50"
 							text="View Forms"
-							onClick={() => { }}
+							onClick={handleFormsClick}
 						/>
 						<PillButton
 							className="pill-alignment medium-text"
