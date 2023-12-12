@@ -128,17 +128,16 @@ function DoctorHome() {
 			const appointmentCards = [];
 			for (let i = 0; i < retreivedAppointments.length; i++) {
 				const response = await controller.getUser(retreivedAppointments[i].patient_id, userState._id);
-				let patientName = '';
-				if (response.ok) {
-					patientName = (await response.json()).name;
-				}
+				const patientJson = await response.json();
+				const patientName = patientJson.name;
+
 				appointmentCards.push(
 					<AppointmentCard
 						key={"AppointmentCard" + i}
 						className="small-margin"
 						date={model.getDateFromFormat(retreivedAppointments[i].date)}
 						name={patientName}
-						onClick={handleViewPatientClick}
+						onClick={() => handleViewPatientClick(patientJson)}
 						patientId={patientName}
 					/>
 				);
@@ -170,8 +169,8 @@ function DoctorHome() {
 		navigate('/doctor-select-appointments', { state: userState });
 	};
 
-	const handleViewPatientClick = (event) => {
-		navigate('/doctor-patient-profile', { state: userState });
+	const handleViewPatientClick = (userObject) => {
+		navigate('/doctor-view-forms', { state: { userState: userState, patientState: userObject } });
 	};
 
 	return (

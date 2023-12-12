@@ -145,6 +145,31 @@ class PatientTrackerController {
 		return null;
 	}
 
+	async createUserForm(patientState, history, diagnosis, studyDate) {
+		const { v4: uuidv4 } = require('uuid');
+
+		const response = await fetch(`http://127.0.0.1:5000/create_form`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				"_id": uuidv4(),
+				"briefClinicalHistory": history,
+				"diagnosis": diagnosis,
+				"patientDOB": patientState.DOB,
+				"patientName": patientState.name,
+				"patient_id": patientState._id,
+				"studyDate": studyDate
+			})
+		});
+
+		if (response.ok) {
+			return response
+		}
+		return null;
+	}
+
 }
 
 export default PatientTrackerController;

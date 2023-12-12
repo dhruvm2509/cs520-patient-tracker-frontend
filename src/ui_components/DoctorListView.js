@@ -32,14 +32,15 @@ function DoctorListView(props) {
 		const appointmentCards = [];
 		for (let i = 0; i < appointments.length; i++) {
 			const response = await controller.getUser(appointments[i].patient_id, props.doctorId);
-			const patientName = (await response.json()).name;
+			const patientJson = await response.json();
+			const patientName = patientJson.name;
 			appointmentCards.push(
 				<AppointmentCard
 					key={`AppointmentCard${i}`}
 					className="small-margin"
 					date={model.getDateFromFormat(appointments[i].date)}
 					name={patientName}
-					onClick={props.handleViewPatientClick}
+					onClick={() => props.handleViewPatientClick(patientJson)}
 				/>
 			);
 		}
