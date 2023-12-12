@@ -52,18 +52,20 @@ function AppointmentCard(props) {
 
 	return (
 		<div style={mergedStyle} className={`row-container ${props.className}`}>
-			<img src={sickPatient} alt='Sick patient placeholder' style={profileImageStyle} className='circle-border' />
+			<img src={props.imageSource ? props.imageSource : sickPatient} alt='Sick patient placeholder' style={profileImageStyle} className='circle-border' />
 			<div className="left-align-items">
 				<div className="medium-text small-margin white-color">{props.name} | {formatDate(props.date)}</div>
-				<PillButton
-					color="black"
-					backgroundColor="white"
-					pixelWidth="150"
-					pixelHeight="40"
-					text="View Records"
-					className="small-text small-margin"
-					onClick={props.onClick}
-				/>
+				{!props.noButton &&
+					<PillButton
+						color="black"
+						backgroundColor="white"
+						pixelWidth="150"
+						pixelHeight="40"
+						text="View Records"
+						className="small-text small-margin"
+						onClick={props.onClick}
+					/>
+				}
 			</div>
 		</div>
 	);

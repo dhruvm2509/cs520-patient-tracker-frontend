@@ -51,7 +51,7 @@ function Login() {
 		if (validUser.doctorPatient === 0) {
 			navigate('/doctor-home', { state: validUser });
 		} else {
-			navigate('/');
+			navigate('/patient-home', { state: validUser });
 		}
 
 	};

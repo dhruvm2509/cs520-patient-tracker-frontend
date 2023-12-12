@@ -167,7 +167,7 @@ function AddProfile() {
 				if (isDoctor) {
 					navigate('/doctor-home', { state: userInfo });
 				} else {
-					navigate('/');
+					navigate('/patient-home', { state: userInfo });
 				}
 			}
 
