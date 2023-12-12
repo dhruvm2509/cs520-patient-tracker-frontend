@@ -145,7 +145,7 @@ class PatientTrackerModel {
 		const targetYear = date.getFullYear();
 
 		const slotsOnDate = allSlots.filter(slot => {
-			const slotTime = new Date(Date.parse(slot));
+			const slotTime = new Date(slot);
 			const slotDay = slotTime.getDate();
 			const slotMonth = slotTime.getMonth();
 			const slotYear = slotTime.getFullYear();
@@ -159,7 +159,7 @@ class PatientTrackerModel {
 
 
 		const daySlotTimes = slotsOnDate.map(slot => {
-			const slotDateTime = new Date(Date.parse(slot));
+			const slotDateTime = new Date(slot);
 			let slotHours = slotDateTime.getHours();
 			return slotHours + (slotDateTime.getMinutes() === 30 ? 0.5 : 0);
 		});
@@ -181,7 +181,7 @@ class PatientTrackerModel {
 
 		const slotsNotDate = allSlots.filter(slot => {
 
-			const slotTime = new Date(Date.parse(slot));
+			const slotTime = new Date(slot);
 			const slotDay = slotTime.getDate();
 			const slotMonth = slotTime.getMonth();
 			const slotYear = slotTime.getFullYear();
@@ -198,7 +198,7 @@ class PatientTrackerModel {
 				const targetHours = Math.floor(5 + (i * 0.5));
 				const targetMinutes = (i % 2 === 1) ? 30 : 0;
 				const newDateTime = new Date(targetYear, targetMonth, targetDay, targetHours, targetMinutes);
-				slotsNotDate.push(newDateTime.toString());
+				slotsNotDate.push(newDateTime.getTime());
 			}
 		}
 
