@@ -1,14 +1,15 @@
 class PatientTrackerController {
 	constructor(model) {
 		this.model = model;
+		process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; 
 	}
 
 	async updateUser(username, password, updatedUser) {
-		const response = await fetch(`http://127.0.0.1:5000/update_user/${username}`, {
+		const response = await fetch(`https://127.0.0.1:5000/update_user/${username}`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': 'http://127.0.0.1:5000'
+				'Access-Control-Allow-Origin': 'https://127.0.0.1:5000'
 			},
 			body: JSON.stringify({ "username": username, "password": password, "update_param": updatedUser })
 		});
@@ -21,13 +22,13 @@ class PatientTrackerController {
 	}
 
 	async getAppointments(username) {
-		const response = await fetch(`http://127.0.0.1:5000/${username}/appointments`, {
+		const response = await fetch(`https://127.0.0.1:5000/${username}/appointments`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		});
-
+		console.log(response)
 		if (response.ok) {
 			return response
 		} else if (response.status === 404) {
@@ -36,7 +37,7 @@ class PatientTrackerController {
 	}
 
 	async checkUserExists(username, callerId) {
-		const response = await fetch(`http://127.0.0.1:5000/users/${username}`, {
+		const response = await fetch(`https://127.0.0.1:5000/users/${username}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -48,7 +49,7 @@ class PatientTrackerController {
 	}
 
 	async signIn(username, password) {
-		const response = await fetch(`http://127.0.0.1:5000/sign_in`, {
+		const response = await fetch(`https://127.0.0.1:5000/sign_in`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -64,7 +65,7 @@ class PatientTrackerController {
 	}
 
 	async getUser(username, caller) {
-		const response = await fetch(`http://127.0.0.1:5000/users/${username}`, {
+		const response = await fetch(`https://127.0.0.1:5000/users/${username}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -102,7 +103,7 @@ class PatientTrackerController {
 			userData["availableSlots"] = []
 		}
 
-		const response = await fetch('http://127.0.0.1:5000/create_user', {
+		const response = await fetch('https://127.0.0.1:5000/create_user', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -117,7 +118,7 @@ class PatientTrackerController {
 	}
 
 	async deleteUser(userId, password) {
-		const response = await fetch(`http://127.0.0.1:5000/delete_user/${userId}`, {
+		const response = await fetch(`https://127.0.0.1:5000/delete_user/${userId}`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json'
@@ -132,7 +133,7 @@ class PatientTrackerController {
 	}
 
 	async getUserForms(userId) {
-		const response = await fetch(`http://127.0.0.1:5000/${userId}/forms`, {
+		const response = await fetch(`https://127.0.0.1:5000/${userId}/forms`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
@@ -148,7 +149,7 @@ class PatientTrackerController {
 	async createUserForm(patientState, history, diagnosis, studyDate) {
 		const { v4: uuidv4 } = require('uuid');
 
-		const response = await fetch(`http://127.0.0.1:5000/create_form`, {
+		const response = await fetch(`https://127.0.0.1:5000/create_form`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

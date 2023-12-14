@@ -9,7 +9,6 @@ import PatientTrackerController from '../controller/PatientTrackerController';
 import PatientTrackerModel from '../model/PatientTrackerModel';
 
 function Login() {
-
 	// MVC model and controller
 	const model = new PatientTrackerModel();
 	const controller = new PatientTrackerController(model);
@@ -30,7 +29,6 @@ function Login() {
 	const navigate = useNavigate();
 
 	const handleInfoSubmit = async (event) => {
-
 		if (username === '') {
 			setInvalidInput(true);
 			return;
@@ -38,8 +36,10 @@ function Login() {
 
 		let validUser = null;
 		try {
+			console.log(username)
 			validUser = await controller.signIn(username, password);
 		} catch (error) {
+			console.log("here")
 			console.error('Error sign in user:', error);
 		}
 
@@ -57,6 +57,7 @@ function Login() {
 	};
 
 	return (
+		
 		<div className="login">
 			<div className="header-text header-background">
 				Patient Tracker Web App

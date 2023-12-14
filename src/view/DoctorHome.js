@@ -38,6 +38,7 @@ function DoctorHome() {
 			setAppointmentsToday(model.getAppointmentsByDate(appointments, new Date()));
 			setAppointmentsWeek(model.getAppointmentThisWeek(appointments, new Date()));
 			setAppointmentsMonth(model.getAppointmentThisMonth(appointments, new Date()));
+
 		}
 		retreivedAppointments();
 

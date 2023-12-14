@@ -5,6 +5,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
+### `npm install`
+
+To download the node_modules folder and all the dependencies.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ### `npm start`
 
