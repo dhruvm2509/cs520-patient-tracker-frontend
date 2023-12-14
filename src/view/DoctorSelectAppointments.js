@@ -15,7 +15,7 @@ function DoctorSelectAppointments() {
 	const controller = new PatientTrackerController(model);
 
 	const location = useLocation();
-	const userState = location.state;
+	const [userState, setUserState] = useState(location.state);
 
 	// Day selector
 	const currentDay = new Date().getDate();
@@ -60,7 +60,7 @@ function DoctorSelectAppointments() {
 			new Date()));
 
 		// eslint-disable-next-line
-	}, []);
+	}, [userState]);
 
 	const handleButtonClicked = (index) => {
 		setSelectedTimes((prevArray) => {
@@ -96,6 +96,17 @@ function DoctorSelectAppointments() {
 			userState,
 			new Date(event.target.value, selectedMonth, 1)));
 	};
+
+	useEffect(() => {
+		async function fetchUserDatabase() {
+			const response = await controller.getUser(userState._id, userState._id);
+			if (response.ok) {
+				const userJson = await response.json();
+				setUserState(userJson);
+			}
+		}
+		fetchUserDatabase();
+	}, []);
 
 	const handleSaveClicked = async () => {
 		setUnsavedChagnes('Saving...');
