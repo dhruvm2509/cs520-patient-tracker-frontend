@@ -1,7 +1,7 @@
 class PatientTrackerController {
 	constructor(model) {
 		this.model = model;
-		process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; 
+		process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 	}
 
 	async updateUser(username, password, updatedUser) {
@@ -36,13 +36,12 @@ class PatientTrackerController {
 		}
 	}
 
-	async checkUserExists(username, callerId) {
-		const response = await fetch(`https://127.0.0.1:5000/users/${username}`, {
-			method: 'POST',
+	async checkUserExists(username) {
+		const response = await fetch(`https://127.0.0.1:5000/exists/${username}`, {
+			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ "caller_id": callerId })
+			}
 		});
 
 		return response.ok;
@@ -96,7 +95,7 @@ class PatientTrackerController {
 			"imageUrl": imageUrl,
 			"appointmentIds": [],
 			"formIds": [],
-			"availableTimes": []
+			"availableSlots": []
 		};
 
 		if (isDoctor) {

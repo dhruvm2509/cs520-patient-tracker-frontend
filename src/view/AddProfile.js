@@ -75,7 +75,7 @@ function AddProfile() {
 			} else {
 				setInvalidUsername(false);
 			}
-			fetchUserExists = await controller.checkUserExists(username, "anonymousDoctor");
+			fetchUserExists = await controller.checkUserExists(username);
 			setUsernameExists(fetchUserExists);
 		} catch (error) {
 			console.error('Error checking user:', error);
