@@ -48,8 +48,10 @@ function DoctorHome() {
 	const [imageLoaded, setImageLoaded] = useState(false);
 	const [imageSource, setImageSource] = useState('');
 
+
 	useEffect(() => {
 		async function retrieveProfilePic() {
+
 			const imageUrl = userState?.imageUrl || null;
 			if (imageUrl !== null) {
 				try {

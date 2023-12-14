@@ -52,9 +52,9 @@ class PatientTrackerModel {
 	}
 
 	getAppointmentThisWeek(appointments, date) {
-		const startDate = new Date(date.setDate(date.getDate() + 1));
+		const startDate = new Date(date.setDate(date.getDate() ));
 		const next7Days = new Date(date.setDate(date.getDate() + 7));
-
+		
 		return appointments.filter(appointment => {
 			const appointmentDate = this.getDateFromFormat(appointment.date);
 			return (
@@ -65,7 +65,7 @@ class PatientTrackerModel {
 	}
 
 	getAppointmentThisMonth(appointments, date) {
-		const startDate = new Date(date.setDate(date.getDate() + 8));
+		const startDate = new Date(date.setDate(date.getDate() + 7));
 		const next7Days = new Date(date.setDate(date.getDate() + 30));
 
 		return appointments.filter(appointment => {
