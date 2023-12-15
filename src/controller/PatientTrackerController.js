@@ -21,6 +21,23 @@ class PatientTrackerController {
 		}
 	}
 
+	async getDoctorByName(searchName) {
+		if (searchName === '') {
+			return null;
+		}
+		const response = await fetch(`https://127.0.0.1:5000/${searchName}/doctors`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		if (response.ok) {
+			return response
+		} else {
+			return null;
+		}
+	}
+
 	async getAppointments(username) {
 		const response = await fetch(`https://127.0.0.1:5000/${username}/appointments`, {
 			method: 'GET',
@@ -28,10 +45,34 @@ class PatientTrackerController {
 				'Content-Type': 'application/json'
 			}
 		});
-		console.log(response)
 		if (response.ok) {
 			return response
 		} else if (response.status === 404) {
+			return null;
+		}
+	}
+
+	async bookAppointment(doctor_id, pateient_id, date, summary) {
+		const { v4: uuidv4 } = require('uuid');
+
+		const response = await fetch(`https://127.0.0.1:5000/create_appointment`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				"_id": uuidv4(),
+				"doctor_id": doctor_id,
+				"patient_id": pateient_id,
+				"date": date,
+				"summary": summary
+			})
+
+		});
+
+		if (response.ok) {
+			return response
+		} else {
 			return null;
 		}
 	}

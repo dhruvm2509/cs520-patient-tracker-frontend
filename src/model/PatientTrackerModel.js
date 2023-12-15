@@ -52,9 +52,9 @@ class PatientTrackerModel {
 	}
 
 	getAppointmentThisWeek(appointments, date) {
-		const startDate = new Date(date.setDate(date.getDate() ));
+		const startDate = new Date(date.setDate(date.getDate()));
 		const next7Days = new Date(date.setDate(date.getDate() + 7));
-		
+
 		return appointments.filter(appointment => {
 			const appointmentDate = this.getDateFromFormat(appointment.date);
 			return (
@@ -116,7 +116,7 @@ class PatientTrackerModel {
 		const hours = dateStringFormatted.slice(9, 11);
 		const minutes = dateStringFormatted.slice(11, 13);
 		const seconds = dateStringFormatted.slice(13, 15);
-		return new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`);
+		return new Date(year, month - 1, day, hours, minutes, seconds);
 	}
 
 	getFormalDate(dateObject) {
@@ -145,7 +145,7 @@ class PatientTrackerModel {
 		const targetYear = date.getFullYear();
 
 		const slotsOnDate = allSlots.filter(slot => {
-			const slotTime = new Date(slot);
+			const slotTime = this.getDateFromFormat(slot);
 			const slotDay = slotTime.getDate();
 			const slotMonth = slotTime.getMonth();
 			const slotYear = slotTime.getFullYear();
@@ -157,9 +157,8 @@ class PatientTrackerModel {
 			);
 		});
 
-
 		const daySlotTimes = slotsOnDate.map(slot => {
-			const slotDateTime = new Date(slot);
+			const slotDateTime = this.getDateFromFormat(slot);
 			let slotHours = slotDateTime.getHours();
 			return slotHours + (slotDateTime.getMinutes() === 30 ? 0.5 : 0);
 		});
@@ -180,8 +179,7 @@ class PatientTrackerModel {
 		const targetYear = date.getFullYear();
 
 		const slotsNotDate = allSlots.filter(slot => {
-
-			const slotTime = new Date(slot);
+			const slotTime = new Date(this.getDateFromFormat(slot));
 			const slotDay = slotTime.getDate();
 			const slotMonth = slotTime.getMonth();
 			const slotYear = slotTime.getFullYear();
@@ -198,11 +196,60 @@ class PatientTrackerModel {
 				const targetHours = Math.floor(5 + (i * 0.5));
 				const targetMinutes = (i % 2 === 1) ? 30 : 0;
 				const newDateTime = new Date(targetYear, targetMonth, targetDay, targetHours, targetMinutes);
-				slotsNotDate.push(newDateTime.getTime());
+				slotsNotDate.push(this.formatDateTimeToUTC(newDateTime));
 			}
 		}
 
 		return slotsNotDate;
+	}
+
+	groupByDays(appointmentDates) {
+		const dateObjects = [];
+		for (let i = 0; i < appointmentDates.length; i++) {
+			dateObjects.push(this.getDateFromFormat(appointmentDates[i]));
+		}
+		const groupedByDay = {};
+
+		dateObjects.forEach(date => {
+			const dateString = date.toISOString().split('T')[0];
+			if (!groupedByDay[dateString]) {
+				groupedByDay[dateString] = [];
+			}
+			groupedByDay[dateString].push(date);
+		});
+		return Object.values(groupedByDay);
+	}
+
+	formatTimeSpan(dateTime) {
+		const hours = dateTime.getHours();
+		const minutes = dateTime.getMinutes();
+
+		const dateTimeEnd = new Date(dateTime);
+		dateTimeEnd.setMinutes(dateTimeEnd.getMinutes() + 30);
+		const hoursEnd = dateTimeEnd.getHours();
+		const minutesEnd = dateTimeEnd.getMinutes();
+
+		const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+		const formattedHoursEnd = hoursEnd % 12 === 0 ? 12 : hoursEnd % 12;
+		const period = (hoursEnd < 12) ? 'AM' : 'PM';
+
+		const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+		const formattedMinutesEnd = minutesEnd < 10 ? `0${minutesEnd}` : minutesEnd;
+		const timeSpanString = `${formattedHours}:${formattedMinutes} - ${formattedHoursEnd}:${formattedMinutesEnd} ${period}`;
+
+		return timeSpanString;
+	}
+
+	formatDateTimeToUTC(dateTime) {
+		const year = dateTime.getFullYear();
+		const month = String(dateTime.getMonth() + 1).padStart(2, '0');
+		const day = String(dateTime.getDate()).padStart(2, '0');
+		const hours = String(dateTime.getHours()).padStart(2, '0');
+		const minutes = String(dateTime.getMinutes()).padStart(2, '0');
+		const seconds = String(dateTime.getSeconds()).padStart(2, '0');
+
+		const formattedString = `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
+		return formattedString;
 	}
 
 }
